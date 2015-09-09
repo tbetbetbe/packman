@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
   'oauth2client>={{dependencies.auth.python.version}}',
-  'grpc>={{dependencies.grpc.python.version}}'
+  'grpcio>={{dependencies.grpc.python.version}}'
 ]
 
 setuptools.setup(
@@ -21,9 +21,7 @@ setuptools.setup(
   author='{{api.author}}',
   author_email='{{api.email}}',
   classifiers=[
-    'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
-    'Topic :: Software Development :: APIs',
     'Programming Language :: Python :: 2.7'
   ],
   description='GRPC library for service {{api.name}}-{{api.version}}',

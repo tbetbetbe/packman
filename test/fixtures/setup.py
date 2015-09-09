@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
   'oauth2client>=0.4.1',
-  'grpc>=0.9.0a0'
+  'grpcio>=0.9.0a0'
 ]
 
 setuptools.setup(
@@ -21,9 +21,7 @@ setuptools.setup(
   author='Google Inc',
   author_email='googleapis-packages@google.com',
   classifiers=[
-    'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
-    'Topic :: Software Development :: APIs',
     'Programming Language :: Python :: 2.7'
   ],
   description='GRPC library for service packager-unittest-v2',
