@@ -1,0 +1,15 @@
+-
+  name: 'api'
+  version: ''
+-
+  name: 'iam'
+  version: 'v1'
+-
+  name: 'longrunning'
+  version: ''
+-
+  name: 'rpc'
+  version: ''
+-
+  name: 'type'
+  version: ''

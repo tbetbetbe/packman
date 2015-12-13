@@ -1,0 +1,32 @@
+"""A setup module for the google apis common protos
+
+See:
+https://packaging.python.org/en/latest/distributing.html
+https://github.com/pypa/sampleproject
+"""
+
+import setuptools
+
+from setuptools import setup, find_packages
+
+install_requires = [
+  'protobuf>={{dependencies.protobuf.python.version}}'
+]
+
+setuptools.setup(
+  name='{{api.name}}',
+  version='{{api.semantic_version}}',
+
+  author='{{api.author}}',
+  author_email='{{api.email}}',
+  classifiers=[
+    'Intended Audience :: Developers',
+    'Programming Language :: Python :: 2.7'
+  ],
+  description='Common protobufs used in Google APIs',
+  install_requires=install_requires,
+  license='{{api.license}}',
+  packages=find_packages(),
+  namespace_package=['google'],
+  url='{{{api.homepage}}}'
+)

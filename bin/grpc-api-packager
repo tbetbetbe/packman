@@ -52,6 +52,16 @@ var parseArgs = function parseArgs() {
     version: version
   });
   cli.addArgument(
+    [ '-x', '--build_common_protos' ],
+    {
+      defaultValue: false,
+      action: 'storeTrue',
+      help: 'When set indicates that package for the common api'
+            + ' protos should be built.\n',
+      dest: 'buildCommonProtos'
+    }
+  );
+  cli.addArgument(
     [ '-i', '--include_path' ],
     {
       help: 'Include path for additional protos\n' +
@@ -175,6 +185,12 @@ var main = function main() {
   if (opts.isGoogleApi && !opts.pkgPrefix) {
     opts.pkgPrefix = 'grpc-google-';
   }
+  if (opts.buildCommonProtos) {
+    opts.isGoogleApi = true;
+    opts.pkgPrefix = 'googleapis-common-protos';
+    opts.apiName = 'googleapis-common-protos';
+    opts.apiVersion = '';
+  }
   if (opts.overridePlugins) {
     opts.overridePlugins = parsePlugins(opts.overridePlugins);
   }
@@ -189,7 +205,11 @@ var main = function main() {
   var apiName = parts[0];
   var apiVersion = parts[1] || '';
   repo.on('ready', function() {
-    repo.buildPackages(apiName, apiVersion);
+    if (opts.buildCommonProtos) {
+      repo.buildCommonProtoPkgs();
+    } else {
+      repo.buildPackages(apiName, apiVersion);
+    }
   });
   repo.on('error', function(err) {
     console.error('Could not build packages:', err);

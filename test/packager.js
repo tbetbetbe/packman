@@ -11,6 +11,23 @@ var tmp = require('tmp');
 
 var packager = require('../lib/packager');
 
+var templateDirs = {
+  go: {
+    templateDir: path.join(__dirname, '..', 'templates', 'go')
+  },
+  objective_c: {
+    templateDir: path.join(__dirname, '..', 'templates', 'objc')
+  },
+  nodejs: {
+    templateDir: path.join(__dirname, '..', 'templates', 'nodejs')
+  },
+  python: {
+    templateDir: path.join(__dirname, '..', 'templates', 'python')
+  },
+  ruby: {
+    templateDir: path.join(__dirname, '..', 'templates', 'ruby')
+  }
+};
 
 function filesEqual(file1, file2, done) {
   fs.readFile(file1, 'utf-8', function(err, file1Data) {
@@ -121,10 +138,10 @@ describe('the go package builder', function() {
   });
 
   it ('should construct a go package', function(done) {
-    var opts = {
+    var opts = _.merge({
       packageInfo: testPackageInfo,
       top: top
-    }
+    }, templateDirs.go);
     var copies = [
       'LICENSE',
       'PUBLISHING.md'
@@ -148,10 +165,10 @@ describe('the objective c package builder', function() {
   });
 
   it ('should construct a objc package', function(done) {
-    var opts = {
+    var opts = _.merge({
       packageInfo: testPackageInfo,
       top: top
-    }
+    }, templateDirs.objective_c);
     var copies = [
       'LICENSE',
       'PUBLISHING.md'
@@ -183,10 +200,10 @@ describe('the python package builder', function() {
     top = tmp.dirSync().name;
   });
   it ('should construct a python package', function(done) {
-    var opts = {
+    var opts = _.merge({
       packageInfo: testPackageInfo,
       top: top
-    }
+    }, templateDirs.python);
     var copies = [
       'LICENSE',
       'PUBLISHING.rst'
@@ -230,10 +247,10 @@ describe('the ruby package builder', function() {
   });
 
   it ('should construct a ruby package', function(done) {
-    var opts = {
+    var opts = _.merge({
       packageInfo: testPackageInfo,
       top: top
-    };
+    }, templateDirs.ruby);
 
     var copies = [
       'Gemfile',
@@ -269,10 +286,10 @@ describe('the nodejs package builder', function() {
   });
 
   it ('should construct a nodejs package', function(done) {
-    var opts = {
+    var opts = _.merge({
       packageInfo: testPackageInfo,
       top: top
-    }
+    }, templateDirs.nodejs);
     var copies = [
       'index.js',
       'LICENSE',
