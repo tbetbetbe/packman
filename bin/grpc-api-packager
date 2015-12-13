@@ -160,7 +160,7 @@ var main = function main() {
   repo.on('ready', function() {
     repo.buildPackages(apiName, apiVersion);
   });
-  repo.on('err', function(err) {
+  repo.on('error', function(err) {
     console.error('Could not build packages:', err);
   });
   repo.setUp();
