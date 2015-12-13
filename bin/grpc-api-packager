@@ -33,6 +33,7 @@
  * ```
  */
 
+var _ = require('lodash');
 var path = require('path');
 var version = require('../package.json').version;
 
@@ -55,13 +56,15 @@ var parseArgs = function parseArgs() {
     {
       help: 'Specifies an include path for additional protos\n' +
         'This is a PATH-like value used to locate shared proto defintions' +
-        ' outside of an apis directory, but within services_root or repository'
+        ' outside of an apis directory, but within services_root or repository',
+      dest: 'includePath'
     }
   );
   cli.addArgument(
-    [ '-o', '--out_path' ],
+    [ '-o', '--out_dir' ],
     {
-      help: 'The directory in which the generated packages will be saved.'
+      help: 'The directory in which the generated packages will be saved.',
+      dest: 'outDir'
     }
   );
   cli.addArgument(
@@ -69,29 +72,33 @@ var parseArgs = function parseArgs() {
     {
       help: 'Specifies the name of the api to generate\n' +
         'The name should include the version component; e.g. use "pubsub/v1"' +
-        ' to specify the protos in pubsub/v1 sub-directory of the services_root'
+        ' to specify the protos in pubsub/v1 sub-directory of the services_root',
+      dest: 'apiName'
     }
   );
   cli.addArgument(
     [ '-l', '--languages' ],
     {
       help: 'Specifies the language packages to be generated\n',
-      nargs: '*'
+      nargs: '*',
+      dest: 'languages'
     }
   );
   cli.addArgument(
     [ '-r', '--services_root' ],
     {
       help: 'The directory containing the rpc service proto definitions.'
-          + '\nShould not be specified with -r/--protobuf, which clobbers this.'
+          + '\nShould not be specified with -r/--protobuf, which clobbers this.',
+      dest: 'repoDir'
     }
   );
   cli.addArgument(
-    [ '-u', '--zip_uri' ],
+    [ '-u', '--zip_url' ],
     {
       help: 'The URI of a repository containing the rpc proto definitions.\n'
           + 'Should not be specified with -r/--protobuf_root, which will be'
-          + ' ignored'
+          + ' ignored',
+      dest: 'zipUrl'
     }
   );
   cli.addArgument(
@@ -99,7 +106,8 @@ var parseArgs = function parseArgs() {
     {
       help: 'Specifies an alternate location for the api_defaults config' +
         ' file\n api_defaults configures shared metadata that is may be' +
-        ' included in all the package files'
+        ' included in all the package files',
+      dest: 'apiDefaultsFile'
     }
   );
   cli.addArgument(
@@ -107,7 +115,8 @@ var parseArgs = function parseArgs() {
     {
       help: 'Specifies an alternate location for the deps config file\n' +
         'dependencies configures the package dependencies to include in the ' +
-        ' generated package file'
+        ' generated package file',
+      dest: 'dependenciesFile'
     }
   );
   cli.addArgument(
@@ -116,7 +125,8 @@ var parseArgs = function parseArgs() {
       defaultValue: "",
       help: 'Specifies a prefix to use when constructing package names\n' +
         'if is_google_api is set, this defaults to "grpc-google-" otherwise ' +
-        ' the default is ""'
+        ' the default is ""',
+      dest: 'pkgPrefix'
     }
   );
   cli.addArgument(
@@ -125,27 +135,48 @@ var parseArgs = function parseArgs() {
       defaultValue: true,
       action: 'storeTrue',
       help: 'When set indicates that the API is an official google API.\n'
-            + ' This means that there is a top-level google dir beneath the root'
+            + ' This means that there is a top-level google dir beneath the root',
+      dest: 'isGoogleApi'
+    }
+  );
+  cli.addArgument(
+    [ '--override_plugins' ],
+    {
+      action: 'append',
+      help: 'Specifies the override protoc plugins to be used\n',
+      dest: 'overridePlugins'
     }
   );
   return cli.parseArgs();
 }
 
+var parsePlugins = function parsePlugins(pluginSpecs) {
+  var parsedSpecs = [];
+  _.forEach(pluginSpecs, function(p) {
+    var split = p.split(":");
+    if (split.length !== 2) {
+      console.error('Ignoring invalid plugin override spec %s', p);
+      return;
+    }
+    parsedSpecs.push(split);
+  });
+  if (parsedSpecs.length === 0) {
+    return {};
+  }
+  return _.object(parsedSpecs);
+};
+
+
 /**
  * main is the command line entry point when this file is run as a script.
  */
 var main = function main() {
-  var cmdOpts = parseArgs();
-  var opts = {
-    isGoogleApi: cmdOpts.is_google_api,
-    languages: cmdOpts.languages,
-    outDir: cmdOpts.out_path,
-    pkgPrefix: cmdOpts.package_prefix,
-    repoDir: cmdOpts.services_root,
-    zipUrl: cmdOpts.zip_url
-  };
+  var opts = parseArgs();
   if (opts.isGoogleApi && !opts.pkgPrefix) {
     opts.pkgPrefix = 'grpc-google-';
+  }
+  if (opts.overridePlugins) {
+    opts.overridePlugins = parsePlugins(opts.overridePlugins);
   }
   if (opts.outDir) {
     opts.outDir = path.resolve(opts.outDir);
@@ -154,7 +185,7 @@ var main = function main() {
     opts.repoDir = path.resolve(opts.repoDir);
   }
   var repo = new ApiRepo(opts);
-  var parts = cmdOpts.api_name.split('/');
+  var parts = opts.apiName.split('/');
   var apiName = parts[0];
   var apiVersion = parts[1];
   repo.on('ready', function() {
