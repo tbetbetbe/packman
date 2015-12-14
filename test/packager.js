@@ -46,7 +46,7 @@ function filesEqual(file1, file2, done) {
 
 function genFixtureCompareFunc(top) {
   return function compareWithFixture(c) {
-    var want = path.join(__dirname, 'fixtures', c);
+    var want = path.join(__dirname, 'fixtures', path.basename(c));
     var got = path.join(top, c);
     return filesEqual.bind(null, want, got);
   }
@@ -69,6 +69,7 @@ var testPackageInfo = {
     'homepage': 'https://github.com/google/googleapis',
     'license': 'Apache',
     'name': 'packager-unittest',
+    'simplename': 'packager',
     'version': 'v2',
     'semantic_version': '1.0.0'
   },
@@ -205,12 +206,11 @@ describe('the python package builder', function() {
     }
     fs.mkdirpSync(path.join(top, 'pkgTop', 'pkgNext'))
     var checkPkgDirs = function checkPkgDir(next) {
-      var checkTopPkg = genCopyCompareFunc(path.join(top, 'pkgTop'), 'python');
-      var checkNextPkg = genCopyCompareFunc(path.join(top, 'pkgTop', 'pkgNext'),
-                                            'python');
+      var topPkgFile = path.join('pkgTop', '__init__.py');
+      var nextPkgFile = path.join('pkgTop', 'pkgNext', '__init__.py');
       async.parallel([
-        checkTopPkg('__init__.py'),
-        checkNextPkg('__init__.py')
+        compareWithFixture(topPkgFile),
+        compareWithFixture(nextPkgFile)
       ], next);
     }
 
@@ -233,7 +233,8 @@ describe('the ruby package builder', function() {
     var opts = {
       packageInfo: testPackageInfo,
       top: top
-    }
+    };
+
     var copies = [
       'Gemfile',
       'LICENSE',
