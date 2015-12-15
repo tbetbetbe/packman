@@ -56,8 +56,8 @@ var parseArgs = function parseArgs() {
     {
       defaultValue: false,
       action: 'storeTrue',
-      help: 'When set indicates that package for the common api'
-            + ' protos should be built.\n',
+      help: 'Build the package of the common google API protobufs.\n'
+            + 'The value of --api_name will be ignored.',
       dest: 'buildCommonProtos'
     }
   );
