@@ -23,6 +23,12 @@ grpc:
 
 protobuf:
   python:
-    version: '3.0.0a3'
+    version: '3.0.0b1.post1'
   ruby:
     version: '3.0.0-alpha-3'
+
+googleapis_common_protos:
+  python:
+    version: '1.0.0'
+  ruby:
+    version: '*'
