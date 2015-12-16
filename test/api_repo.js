@@ -314,7 +314,7 @@ describe('ApiRepo', function() {
         want += ' --grpc_out=' + path.join(repo.outDir, 'python');
         want += ' --plugin=protoc-gen-grpc=/testing/bin/my_python_plugin'
         want += ' ' + fakeProto + '\n';
-        expect(got).to.eql(want);
+        expect(got).to.contain(want);
         done();
       };
       repo.depBins = {'grpc_python_plugin': '/testing/bin/my_python_plugin'};
@@ -329,7 +329,7 @@ describe('ApiRepo', function() {
         // The test uses the fake protoc, so it just echoes its args
         var want = '--go_out=plugins=grpc:' + path.join(repo.outDir, 'go');
         want += ' ' + fakeProto + '\n';
-        expect(got).to.eql(want);
+        expect(got).to.contain(want);
         done();
       };
       var protoc = repo._makeProtocFunc({
@@ -494,7 +494,7 @@ describe('ApiRepo', function() {
         expect(err).to.be.ok;
         done();
       };
-      repo._checkDeps({env: {}}, shouldError);
+      repo._checkDeps({env: {'PATH': 'ignored'}}, shouldError);
     });
     it('should pass if protoc is on the PATH', function(done) {
       var repo = new ApiRepo({
