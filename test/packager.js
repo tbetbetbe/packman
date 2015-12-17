@@ -92,7 +92,14 @@ var testPackageInfo = {
   },
   dependencies: {
     protobuf: {
-      version: '3.0.0-alpha-3'
+      objc: {
+        version: '3.0.0-alpha-3'
+      }
+    },
+    googleapis_common_protos: {
+      python: {
+        version: '3.0.0b1.1'
+      }
     },
     grpc: {
       core: {
@@ -214,7 +221,8 @@ describe('the python package builder', function() {
       async.parallel(copyTasks, next);
     }
     var expanded = [
-      'setup.py'
+      'setup.py',
+      'README.rst'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
