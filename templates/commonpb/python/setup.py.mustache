@@ -20,10 +20,15 @@ setuptools.setup(
   author='{{api.author}}',
   author_email='{{api.email}}',
   classifiers=[
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
-    'Programming Language :: Python :: 2.7'
+    'License :: OSI Approved :: Apache Software License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: Implementation :: CPython',
   ],
   description='Common protobufs used in Google APIs',
+  long_description=open('README.rst').read(),
   install_requires=install_requires,
   license='{{api.license}}',
   packages=find_packages(),
