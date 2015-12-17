@@ -11,7 +11,8 @@ from setuptools import setup, find_packages
 
 install_requires = [
   'oauth2client>={{dependencies.auth.python.version}}',
-  'grpcio>={{dependencies.grpc.python.version}}'
+  'grpcio>={{dependencies.grpc.python.version}}',
+  'googleapis-common-protos>={{dependencies.googleapis_common_protos.python.version}}'
 ]
 
 setuptools.setup(
@@ -22,9 +23,15 @@ setuptools.setup(
   author_email='{{api.email}}',
   classifiers=[
     'Intended Audience :: Developers',
-    'Programming Language :: Python :: 2.7'
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: Apache Software License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: Implementation :: CPython',
   ],
   description='GRPC library for service {{api.name}}-{{api.version}}',
+  long_description=open('README.rst').read(),
   install_requires=install_requires,
   license='{{api.license}}',
   packages=find_packages(),
