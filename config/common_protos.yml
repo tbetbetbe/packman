@@ -2,9 +2,6 @@
   name: 'api'
   version: ''
 -
-  name: 'iam'
-  version: 'v1'
--
   name: 'longrunning'
   version: ''
 -
