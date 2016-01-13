@@ -6,4 +6,4 @@ email: googleapis-packages@google.com
 github_user_uri: https://github.com/google
 homepage: https://github.com/google/googleapis
 license: Apache
-semantic_version: '1.0.999'
+semantic_version: '1.0.3'

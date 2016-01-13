@@ -35,6 +35,6 @@ setuptools.setup(
   install_requires=install_requires,
   license='{{api.license}}',
   packages=find_packages(),
-  namespace_packages=['google', 'google.{{api.simplename}}'],
+  namespace_packages=[{{#api.nsPackages}}'{{.}}', {{/api.nsPackages}}],
   url='{{{api.homepage}}}'
 )

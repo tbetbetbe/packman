@@ -35,6 +35,6 @@ setuptools.setup(
   install_requires=install_requires,
   license='Apache',
   packages=find_packages(),
-  namespace_packages=['google', 'google.packager'],
+  namespace_packages=['pkgTop', 'pkgTop.pkgNext', ],
   url='https://github.com/google/googleapis'
 )
