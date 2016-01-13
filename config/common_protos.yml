@@ -13,3 +13,6 @@
 -
   name: 'type'
   version: ''
+-
+  name: 'logging/type'
+  version: ''
