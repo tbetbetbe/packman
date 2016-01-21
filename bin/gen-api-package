@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- * grpc-api-packager is a tool for generating language packages for gRPC
+ * gen-api-package is a tool for generating language packages for gRPC
  * services.
  *
  * Example usage:
@@ -11,7 +11,7 @@
  * googleapis github project.
  *
  * ```sh
- * $ grpc-api-packager --api_name=pubsub/v1
+ * $ gen-api-package --api_name=pubsub/v1
  * ```
  *
  * Create the pubsub v1 API for ruby and python from a local copy of the
@@ -24,12 +24,12 @@
  * $ # do some work in it, e.g, to test a change
  * $ ...
  * $ popd  # back to the original wd
- * $ grpc-api-packager --api_name=pubsub/v1  -r ../googleapis -l python ruby
+ * $ gen-api-package --api_name=pubsub/v1  -r ../googleapis -l python ruby
  * ```
  *
  * Print full usage
  * ```sh
- * $ grpc-api-packager -h
+ * $ gen-api-package -h
  * ```
  */
 
@@ -46,7 +46,7 @@ var ArgumentParser = require('argparse').ArgumentParser;
  */
 var parseArgs = function parseArgs() {
   var cli = new ArgumentParser({
-    prog: 'grpc-api-packager',
+    prog: 'gen-api-package',
     addHelp: true,
     description: 'Creates packages for gRPC services.',
     version: version
