@@ -23,7 +23,7 @@ grpc:
 
 protobuf:
   python:
-    version: '3.0.0b1.post1'
+    version: '3.0.0b2'
   ruby:
     version: '3.0.0-alpha-3'
 

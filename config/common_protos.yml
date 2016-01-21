@@ -1,15 +1,22 @@
--
-  name: 'api'
-  version: ''
--
-  name: 'longrunning'
-  version: ''
--
-  name: 'rpc'
-  version: ''
--
-  name: 'type'
-  version: ''
--
-  name: 'logging/type'
-  version: ''
+# packages are the directories in the Google APIs repo that contain shared
+# protos.  name is the path below google, version is an optional path below
+# name.
+packages:
+  -
+    name: 'api'
+    version: ''
+  -
+    name: 'longrunning'
+    version: ''
+  -
+    name: 'rpc'
+    version: ''
+  -
+    name: 'type'
+    version: ''
+  -
+    name: 'logging/type'
+    version: ''
+
+# semver is the semantic version of the common protos package.
+semver: 1.1.0

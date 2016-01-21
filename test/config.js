@@ -19,11 +19,11 @@ var fakeYaml = "what:\n" +
     "  - this\n";
 
 describe('method `packageInfo`', function() {
-  describe('has a value by default', function() {
+  it('has a value by default', function() {
     expect(config.packageInfo()).to.be.ok;
   });
 
-  describe('can load values via a config file', function() {
+  it('can load values via a config file', function() {
     var opts = {
       depsFile: addFakeConfigFile('deps', fakeYaml),
       apiDefaultsFile: addFakeConfigFile('apiDefaults', fakeYaml)
@@ -34,26 +34,26 @@ describe('method `packageInfo`', function() {
   });
 });
 
-describe('method `commonPbPkgs`', function() {
-  describe('has a value by default', function() {
-    expect(config.commonPbPkgs()).to.be.ok;
+describe('method `commonPb`', function() {
+  it('has a value by default', function() {
+    expect(config.commonPb()).to.be.ok;
   });
 
-  describe('can load values via a config file', function() {
+  it('can load values via a config file', function() {
     var opts = {
       commonPbFile: addFakeConfigFile('commonPb', fakeYaml)
     };
-    expect(config.commonPbPkgs(opts)).to.be.ok;
-    expect(config.commonPbPkgs(opts).what).to.eql(['is', 'this']);
+    expect(config.commonPb(opts)).to.be.ok;
+    expect(config.commonPb(opts).what).to.eql(['is', 'this']);
   });
 });
 
 describe('method `pythonPkg`', function() {
-  describe('has a value by default', function() {
+  it('has a value by default', function() {
     expect(config.pythonPkg()).to.be.ok;
   });
 
-  describe('can load values via a config file', function() {
+  it('can load values via a config file', function() {
     var opts = {
       pythonPkgFile: addFakeConfigFile('pythonPkg', fakeYaml)
     };
