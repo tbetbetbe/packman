@@ -2,7 +2,7 @@
   "name": "googleapis-packman",
   "version": "0.1.0",
   "bin": {
-    "grpc-api-packager": "bin/grpc-api-packager"
+    "gen-api-package": "bin/gen-api-package"
   },
   "description": "Creates language packages for google apis",
   "main": "lib/api_repo.js",
