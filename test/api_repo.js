@@ -1,8 +1,10 @@
 'use strict';
 
 var _ = require('lodash');
+var chai = require('chai');
+chai.use(require('dirty-chai'));
 var child_process = require('child_process');
-var expect = require('chai').expect;
+var expect = chai.expect;
 var fs = require('fs-extra');
 var nock = require('nock');
 var path = require('path');
@@ -47,7 +49,7 @@ function addFakeProtocToPath() {
     'badPath': badPath,
     'path': goodPath,
     'dir': goodDir.name
-  }
+  };
 }
 
 // Support simulating the download of the repo.
@@ -78,25 +80,25 @@ describe('ApiRepo', function() {
       describe('method `buildPackages`', function() {
         it('should fail on unrecognized apis', function(done) {
           var shouldFail = function shouldFail(err) {
-            expect(err).to.not.be.null;
+            expect(err).to.not.be.null();
             done();
           };
           repo.on('ready', function() {
-            repo.buildPackages('notpubsub', 'v1beta2', shouldFail)
-          })
+            repo.buildPackages('notpubsub', 'v1beta2', shouldFail);
+          });
           repo.setUp();
         });
         it('should pass for known packages', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
-          })
+          });
           var shouldPass = function shouldPass(err) {
-            expect(err).to.be.null;
+            expect(err).to.be.null();
             done();
           };
           repo.on('ready', function() {
-            repo.buildPackages('pubsub', 'v1beta2', shouldPass)
-          })
+            repo.buildPackages('pubsub', 'v1beta2', shouldPass);
+          });
           repo.setUp();
         });
       });
@@ -126,10 +128,10 @@ describe('ApiRepo', function() {
         it('should fire the ready event', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
-          })
+          });
           repo.on('ready', function() {
             done();
-          })
+          });
           repo.setUp();
         });
       });
@@ -145,40 +147,40 @@ describe('ApiRepo', function() {
         it('should pass for known packages', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
-          })
+          });
           var shouldPass = function shouldPass(err) {
-            expect(err).to.be.null;
+            expect(err).to.be.null();
             done();
           };
           repo.on('ready', function() {
-            repo.buildPackages('pubsub', 'v1beta2', shouldPass)
-          })
+            repo.buildPackages('pubsub', 'v1beta2', shouldPass);
+          });
           repo.setUp();
         });
         it('should fail on unrecognized apis', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
-          })
+          });
           var shouldFail = function shouldFail(err) {
-            expect(err).to.not.be.null;
+            expect(err).to.not.be.null();
             done();
           };
           repo.on('ready', function() {
-            repo.buildPackages('notpubsub', 'v1beta2', shouldFail)
-          })
+            repo.buildPackages('notpubsub', 'v1beta2', shouldFail);
+          });
           repo.setUp();
         });
         it('should fail on unrecognized versions', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
-          })
+          });
           var shouldFail = function shouldFail(err) {
-            expect(err).to.not.be.null;
+            expect(err).to.not.be.null();
             done();
           };
           repo.on('ready', function() {
-            repo.buildPackages('pubsub', 'v1alpha5', shouldFail)
-          })
+            repo.buildPackages('pubsub', 'v1alpha5', shouldFail);
+          });
           repo.setUp();
         });
       });
@@ -206,7 +208,7 @@ describe('ApiRepo', function() {
         var want = [
           "google/pubsub/v1beta2/pubsub.proto"
         ];
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         expect(data).to.deep.eql(want);
         done();
       };
@@ -214,7 +216,7 @@ describe('ApiRepo', function() {
       // thisTest asserts that _buildProtos fails if api does not exist in the
       // fixture repo.
       var thisTest = function thisTest(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         repo._buildProtos('pubsub', 'v1beta2', 'python', shouldPass);
       };
       console.log('outDir is', repo.outDir);
@@ -222,42 +224,42 @@ describe('ApiRepo', function() {
     });
     it('should fail if the configured language is not present', function(done) {
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
 
       // thisTest asserts that _buildProtos fails if the langauge is not set up
       // on the repo.
       var thisTest = function thisTest(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         repo._buildProtos('pubsub', 'v1beta2', 'scala', shouldFail);
       };
       repo._checkRepo(thisTest);
     });
     it('should fail if version is not present', function(done) {
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
 
       // thisTest asserts that _buildProtos fails if the version does not exist
       // in the fixture repo.
       var thisTest = function thisTest(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         repo._buildProtos('pubsub', 'v0alpha', 'python', shouldFail);
       };
       repo._checkRepo(thisTest);
     });
     it('should fail if api is not present', function(done) {
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
 
       // thisTest asserts that _buildProtos fails if api does not exist in the
       // fixture repo.
       var thisTest = function thisTest(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         repo._buildProtos('notpubsub', 'v1beta2', 'python', shouldFail);
       };
       repo._checkRepo(thisTest);
@@ -269,14 +271,14 @@ describe('ApiRepo', function() {
       });
       getsGoodZipFrom(badProtocRepo.zipUrl);
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
 
       // thisTest asserts that _buildProtos fails if protoc fails while running
       // against the protos in the test fixture repo.
       var thisTest = function thisTest(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         badProtocRepo._buildProtos('pubsub', 'v1beta2', 'python', shouldFail);
       };
       badProtocRepo._checkRepo(thisTest);
@@ -297,7 +299,7 @@ describe('ApiRepo', function() {
     });
     it('should fail if protoc fails', function(done) {
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
       var protoc = repo._makeProtocFunc({
@@ -307,12 +309,12 @@ describe('ApiRepo', function() {
     });
     it('should obtain a func that runs protoc', function(done) {
       var shouldPass = function(err, got) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         // The test uses the fake protoc, so it just echoes its args
         var want = '--python_out=' + path.join(repo.outDir, 'python');
         want += ' -I.';
         want += ' --grpc_out=' + path.join(repo.outDir, 'python');
-        want += ' --plugin=protoc-gen-grpc=/testing/bin/my_python_plugin'
+        want += ' --plugin=protoc-gen-grpc=/testing/bin/my_python_plugin';
         want += ' ' + fakeProto + '\n';
         expect(got).to.contain(want);
         done();
@@ -325,7 +327,7 @@ describe('ApiRepo', function() {
     });
     it('should obtain a func that runs protoc for GoLang', function(done) {
       var shouldPass = function(err, got) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         // The test uses the fake protoc, so it just echoes its args
         var want = '--go_out=plugins=grpc:' + path.join(repo.outDir, 'go');
         want += ' ' + fakeProto + '\n';
@@ -349,7 +351,7 @@ describe('ApiRepo', function() {
     });
     it('should fail if no dir matches name and version', function(done) {
       var shouldFail = function shouldFail(err) {
-        expect(err).to.not.be.null;
+        expect(err).to.not.be.null();
         done();
       };
       repo._findProtos('notpubsub', 'notaversion', shouldFail);
@@ -369,7 +371,7 @@ describe('ApiRepo', function() {
           var want = [
             path.join('google', f[0], f[1], f[2])
           ];
-          expect(err).to.be.null;
+          expect(err).to.be.null();
           expect(protos).to.deep.eql(want);
           expect(foundProtos).to.deep.eql(want);
           done();
@@ -399,7 +401,7 @@ describe('ApiRepo', function() {
         isGoogleApi: true
       });
       var shouldBeOK = function(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         done();
       };
       repo._checkRepo(shouldBeOK);
@@ -409,7 +411,7 @@ describe('ApiRepo', function() {
         repoDir: withoutSubdir
       });
       var shouldBeOK = function(err) {
-        expect(err).to.be.null;
+        expect(err).to.be.null();
         done();
       };
       repo._checkRepo(shouldBeOK);
@@ -420,7 +422,7 @@ describe('ApiRepo', function() {
         isGoogleApi: true
       });
       var shouldError = function(err) {
-        expect(err).to.be.ok;
+        expect(err).to.be.ok();
         done();
       };
       repo._checkRepo(shouldError);
@@ -430,7 +432,7 @@ describe('ApiRepo', function() {
         repoDir: doesNotExist
       });
       var shouldError = function(err) {
-        expect(err).to.be.ok;
+        expect(err).to.be.ok();
         done();
       };
       repo._checkRepo(shouldError);
@@ -440,7 +442,7 @@ describe('ApiRepo', function() {
         repoDir: notADir
       });
       var shouldError = function(err) {
-        expect(err).to.be.ok;
+        expect(err).to.be.ok();
         done();
       };
       repo._checkRepo(shouldError);
@@ -448,11 +450,11 @@ describe('ApiRepo', function() {
     describe('when no repoDir is set', function(){
       it('should download the default repo', function(done) {
         var repo = new ApiRepo();
-        expect(repo.zipUrl).to.not.be.null;
-        expect(repo.repoDir).to.be.undefined;
+        expect(repo.zipUrl).to.not.be.null();
+        expect(repo.repoDir).to.be.undefined();
         var shouldBeOK = function(err) {
-          expect(err).to.be.null;
-          expect(repo.repoDir).to.not.be.null;
+          expect(err).to.be.null();
+          expect(repo.repoDir).to.not.be.null();
           done();
         };
         getsGoodZipFrom(repo.zipUrl);
@@ -462,11 +464,11 @@ describe('ApiRepo', function() {
         var repo = new ApiRepo({
           isGoogleApi: true
         });
-        expect(repo.zipUrl).to.not.be.null;
-        expect(repo.repoDir).to.be.undefined;
+        expect(repo.zipUrl).to.not.be.null();
+        expect(repo.repoDir).to.be.undefined();
         var shouldBeOK = function(err) {
-          expect(err).to.be.null;
-          expect(repo.repoDir).to.not.be.null;
+          expect(err).to.be.null();
+          expect(repo.repoDir).to.not.be.null();
           done();
         };
         getsGoodZipFrom(repo.zipUrl);
@@ -491,7 +493,7 @@ describe('ApiRepo', function() {
         languages: []
       });
       var shouldError = function(err) {
-        expect(err).to.be.ok;
+        expect(err).to.be.ok();
         done();
       };
       repo._checkDeps({env: {'PATH': 'ignored'}}, shouldError);
@@ -501,8 +503,8 @@ describe('ApiRepo', function() {
         languages: []
       });
       var shouldNotError = function(err, result) {
-        expect(err).to.be.null;
-        expect(result).to.be.ok;
+        expect(err).to.be.null();
+        expect(result).to.be.ok();
         done();
       };
       repo._checkDeps({env: {'PATH': fakes.path}}, shouldNotError);
@@ -512,8 +514,8 @@ describe('ApiRepo', function() {
         languages: ['lisp', 'scala']
       });
       var shouldNotError = function(err, result) {
-        expect(err).to.be.null;
-        expect(result).to.be.ok;
+        expect(err).to.be.null();
+        expect(result).to.be.ok();
         done();
       };
       repo._checkDeps({env: {'PATH': fakes.path}}, shouldNotError);
@@ -523,7 +525,7 @@ describe('ApiRepo', function() {
         languages: ['lisp', 'scala', 'scheme']
       });
       var shouldError = function(err) {
-        expect(err).to.be.ok;
+        expect(err).to.be.ok();
         done();
       };
       repo._checkDeps({env: {'PATH': fakes.path}}, shouldError);

@@ -4,7 +4,6 @@ var _ = require('lodash');
 var async = require('async');
 var child_process = require('child_process');
 var diff = require('diff');
-var expect = require('chai').expect;
 var fs = require('fs-extra');
 var path = require('path');
 var tmp = require('tmp');
@@ -47,8 +46,8 @@ function filesEqual(file1, file2, done) {
           diffCount += 1;
         }
       });
-      if (diffCount == 0) {
-        done(null)
+      if (diffCount === 0) {
+        done();
       } else {
         console.log(diffs);
         if (diffCount == 1) {
@@ -66,7 +65,7 @@ function genFixtureCompareFunc(top) {
     var want = path.join(__dirname, 'fixtures', path.basename(c));
     var got = path.join(top, c);
     return filesEqual.bind(null, want, got);
-  }
+  };
 }
 
 function genCopyCompareFunc(top, language) {
@@ -74,7 +73,7 @@ function genCopyCompareFunc(top, language) {
     var want = path.join(__dirname, '..', 'templates', language, c);
     var got = path.join(top, c);
     return filesEqual.bind(null, want, got);
-  }
+  };
 }
 
 var testPackageInfo = {
@@ -136,7 +135,7 @@ var testPackageInfo = {
       }
     }
   }
-}
+};
 
 describe('the go package builder', function() {
   var top;
@@ -157,7 +156,7 @@ describe('the go package builder', function() {
       var checkACopy = genCopyCompareFunc(top, 'go');
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
-    }
+    };
     async.series([
       packager.go.bind(null, opts),
       checkCopies
@@ -184,7 +183,7 @@ describe('the objective c package builder', function() {
       var checkACopy = genCopyCompareFunc(top, 'objc');
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
-    }
+    };
     var expanded = [
       'packager-unittest-v2.podspec'
     ];
@@ -192,7 +191,7 @@ describe('the objective c package builder', function() {
     var checkExpanded = function checkExpanded(next) {
       var expandTasks = _.map(expanded, compareWithFixture);
       async.parallel(expandTasks, next);
-    }
+    };
     async.series([
       packager.objc.bind(null, opts),
       checkCopies,
@@ -219,7 +218,7 @@ describe('the python package builder', function() {
       var checkACopy = genCopyCompareFunc(top, 'python');
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
-    }
+    };
     var expanded = [
       'setup.py',
       'README.rst'
@@ -228,8 +227,8 @@ describe('the python package builder', function() {
     var checkExpanded = function checkExpanded(next) {
       var expandTasks = _.map(expanded, compareWithFixture);
       async.parallel(expandTasks, next);
-    }
-    fs.mkdirpSync(path.join(top, 'pkgTop', 'pkgNext'))
+    };
+    fs.mkdirpSync(path.join(top, 'pkgTop', 'pkgNext'));
     var checkPkgDirs = function checkPkgDir(next) {
       var topPkgFile = path.join('pkgTop', '__init__.py');
       var nextPkgFile = path.join('pkgTop', 'pkgNext', '__init__.py');
@@ -237,7 +236,7 @@ describe('the python package builder', function() {
         compareWithFixture(topPkgFile),
         compareWithFixture(nextPkgFile)
       ], next);
-    }
+    };
 
     async.series([
       packager.python.bind(null, opts),
@@ -270,7 +269,7 @@ describe('the ruby package builder', function() {
       var checkACopy = genCopyCompareFunc(top, 'ruby');
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
-    }
+    };
     var expanded = [
       'packager-unittest-v2.gemspec'
     ];
@@ -278,7 +277,7 @@ describe('the ruby package builder', function() {
     var checkExpanded = function checkExpanded(next) {
       var expandTasks = _.map(expanded, compareWithFixture);
       async.parallel(expandTasks, next);
-    }
+    };
     async.series([
       packager.ruby.bind(null, opts),
       checkCopies,
@@ -307,7 +306,7 @@ describe('the nodejs package builder', function() {
       var checkACopy = genCopyCompareFunc(top, 'nodejs');
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
-    }
+    };
     var expanded = [
       'package.json'
     ];
@@ -315,7 +314,7 @@ describe('the nodejs package builder', function() {
     var checkExpanded = function checkExpanded(next) {
       var expandTasks = _.map(expanded, compareWithFixture);
       async.parallel(expandTasks, next);
-    }
+    };
     async.series([
       packager.nodejs.bind(null, opts),
       checkCopies,
