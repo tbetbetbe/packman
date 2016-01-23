@@ -6,6 +6,8 @@ auth:
     version: '1.4.11'
   ruby:
     version: '0.4.1'
+  nodejs:
+    version: '0.9.7'
 
 grpc:
   core:
@@ -20,6 +22,8 @@ grpc:
     version: '0.9.0a0'
   ruby:
     version: '0.9.3'
+  nodejs:
+    version: '0.12.0'
 
 protobuf:
   python:
