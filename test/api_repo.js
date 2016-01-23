@@ -219,7 +219,6 @@ describe('ApiRepo', function() {
         expect(err).to.be.null();
         repo._buildProtos('pubsub', 'v1beta2', 'python', shouldPass);
       };
-      console.log('outDir is', repo.outDir);
       repo._checkRepo(thisTest);
     });
     it('should fail if the configured language is not present', function(done) {
@@ -369,11 +368,14 @@ describe('ApiRepo', function() {
         };
         var shouldBeOK = function(err, protos) {
           var want = [
-            path.join('google', f[0], f[1], f[2])
+            path.join(repo.repoDir, 'google', f[0], f[1], f[2])
+          ];
+          var shorterWant = [
+            path.join(repo.repoDir, 'google', f[0], f[1], f[2])
           ];
           expect(err).to.be.null();
           expect(protos).to.deep.eql(want);
-          expect(foundProtos).to.deep.eql(want);
+          expect(shorterWant).to.deep.eql(want);
           done();
         };
         repo._findProtos(f[0], f[1], shouldBeOK, onProto);

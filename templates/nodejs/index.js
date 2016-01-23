@@ -32,5 +32,5 @@
  */
 
 var grpc = require('grpc');
-exports.client = grpc.load(__dirname + '/service.json', 'json');
+exports.client = grpc.loadObject(require('./service'));
 exports.auth = require('google-auth-library');
