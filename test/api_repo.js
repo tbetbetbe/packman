@@ -73,7 +73,8 @@ describe('ApiRepo', function() {
           repo = new ApiRepo({
             env: {'PATH': fakes.path},
             isGoogleApi: true,
-            languages: ['nodejs']
+            languages: ['nodejs'],
+            templateRoot: path.join(__dirname, '..', 'templates')
           });
           getsGoodZipFrom(repo.zipUrl);
         });
@@ -121,7 +122,8 @@ describe('ApiRepo', function() {
           repo = new ApiRepo({
             env: {'PATH': fakes.path},
             isGoogleApi: true,
-            languages: ['ruby', 'python']
+            languages: ['ruby', 'python'],
+            templateRoot: path.join(__dirname, '..', 'templates')
           });
           getsGoodZipFrom(repo.zipUrl);
         });
@@ -140,7 +142,8 @@ describe('ApiRepo', function() {
           repo = new ApiRepo({
             env: {'PATH': fakes.path},
             isGoogleApi: true,
-            languages: ['ruby', 'python']
+            languages: ['ruby', 'python'],
+            templateRoot: path.join(__dirname, '..', 'templates')
           });
           getsGoodZipFrom(repo.zipUrl);
         });

@@ -37,7 +37,8 @@ usage: gen-api-package [-h] [-v] [-x] [-i INCLUDEPATH] [-o OUTDIR]
                        [--api_defaults_file APIDEFAULTSFILE]
                        [--dependencies_file DEPSFILE]
                        [--common_protos_file COMMONPBFILE]
-                       [--package_prefix PKGPREFIX] [-g]
+                       [--package_prefix PKGPREFIX]
+                       [--template_root TEMPLATEROOT] [-g]
                        [--override_plugins OVERRIDEPLUGINS]
 
 
@@ -47,10 +48,10 @@ Optional arguments:
   -h, --help            Show this help message and exit.
   -v, --version         Show program's version number and exit.
   -x, --build_common_protos
-                        Build the package of the common google API protobufs.
-                        The value of --api_name will be ignored.
+                        Build a package containing the common google API
+                        protobufs. The value of --api_name will be ignored.
   -i INCLUDEPATH, --include_path INCLUDEPATH
-                        Include path for additional protos This is a
+                        Include path for additional protos. This is a
                         PATH-like value used to locate shared proto
                         defintions outside of an apis directory, but within
                         services_root or repository
@@ -58,40 +59,51 @@ Optional arguments:
                         The directory in which the generated packages will be
                         saved.
   -n APINAME, --api_name APINAME
-                        Name of the api to generate The name should include
+                        Name of the api to generate. The name should include
                         the version component; e.g. use "pubsub/v1" to
                         specify the protos in pubsub/v1 sub-directory of the
                         services_root
   -l [LANGUAGES [LANGUAGES ...]], --languages [LANGUAGES [LANGUAGES ...]]
-                        Specifies the language packages to be generated
+                        Specifies the language for which packages should be
+                        generated.
   -r REPODIR, --services_root REPODIR
                         The directory containing the rpc service proto
                         definitions. Should not be specified with
-                        -r/--protobuf, which clobbers this.
+                        -u/--zip_url, which clobbers this.
   -u ZIPURL, --zip_url ZIPURL
                         URL of a git repository containing the rpc proto
                         definitions. Should not be specified with
-                        -r/--protobuf_root, which will be ignored
+                        -r/--services_root, which will be ignored
   --api_defaults_file APIDEFAULTSFILE
                         Specifies an alternate location for the api_defaults
-                        config file api_defaults configures shared metadata
-                        that is may be included in all the package files
+                        config file. api_defaults.yml configures shared
+                        package metadata to be used in packages of any
+                        language.
   --dependencies_file DEPSFILE
                         Specifies an alternate location for the deps config
-                        file dependencies configures the package dependencies
-                        to include in the generated package file
+                        file. dependencies.yml configures the per-language
+                        dependencies that each language package relies on
   --common_protos_file COMMONPBFILE
                         Specifies an alternate location for the common protos
-                        config file common_protos configures the paths to
-                        include when generating common protos
+                        config file. common_protos.yml configures the paths
+                        to include when generating the packages that contain
+                        common protos
   --package_prefix PKGPREFIX
                         Prefix to use when constructing package names if
                         is_google_api is set, this defaults to "grpc-google-"
                         otherwise the default is ""
+  --template_root TEMPLATEROOT
+                        The root dir for the package templates. Allows
+                        alternate templates to be used during package
+                        generation. The template root must contain the same
+                        files for any specified languages as in the builtin
+                        template root
   -g, --is_google_api   When set indicates that the API is an official google
-                        API. This means that there is a top-level google dir
-                        beneath the root
+                        API. It means that there is a top-level "google"
+                        directory in the target protocol buffer repository
   --override_plugins OVERRIDEPLUGINS
-                        Specifies the override protoc plugins to be used
-
+                        Specifies the override protoc plugins to be used. E.g
+                        by default the plugin for python is named
+                        grpc_python_plugin this can be modified by specifying
+                        --override_plugins python=other_rpc_python_plugin
 ```

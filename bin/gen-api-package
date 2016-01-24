@@ -56,7 +56,7 @@ var parseArgs = function parseArgs() {
     {
       defaultValue: false,
       action: 'storeTrue',
-      help: 'Build the package of the common google API protobufs.\n'
+      help: 'Build a package containing the common google API protobufs.\n'
             + 'The value of --api_name will be ignored.',
       dest: 'buildCommonProtos'
     }
@@ -64,7 +64,7 @@ var parseArgs = function parseArgs() {
   cli.addArgument(
     [ '-i', '--include_path' ],
     {
-      help: 'Include path for additional protos\n' +
+      help: 'Include path for additional protos.\n' +
         'This is a PATH-like value used to locate shared proto defintions' +
         ' outside of an apis directory, but within services_root or repository',
       dest: 'includePath'
@@ -80,7 +80,7 @@ var parseArgs = function parseArgs() {
   cli.addArgument(
     [ '-n', '--api_name' ],
     {
-      help: 'Name of the api to generate\n' +
+      help: 'Name of the api to generate.\n' +
         'The name should include the version component; e.g. use "pubsub/v1"' +
         ' to specify the protos in pubsub/v1 sub-directory of the services_root',
       dest: 'apiName'
@@ -89,7 +89,7 @@ var parseArgs = function parseArgs() {
   cli.addArgument(
     [ '-l', '--languages' ],
     {
-      help: 'Specifies the language packages to be generated\n',
+      help: 'Specifies the language for which packages should be generated.\n',
       nargs: '*',
       dest: 'languages'
     }
@@ -98,7 +98,7 @@ var parseArgs = function parseArgs() {
     [ '-r', '--services_root' ],
     {
       help: 'The directory containing the rpc service proto definitions.'
-          + '\nShould not be specified with -r/--protobuf, which clobbers this.',
+          + '\nShould not be specified with -u/--zip_url, which clobbers this.',
       dest: 'repoDir'
     }
   );
@@ -106,7 +106,7 @@ var parseArgs = function parseArgs() {
     [ '-u', '--zip_url' ],
     {
       help: 'URL of a git repository containing the rpc proto definitions.\n'
-          + 'Should not be specified with -r/--protobuf_root, which will be'
+          + 'Should not be specified with -r/--services_root, which will be'
           + ' ignored',
       dest: 'zipUrl'
     }
@@ -115,26 +115,26 @@ var parseArgs = function parseArgs() {
     [ '--api_defaults_file' ],
     {
       help: 'Specifies an alternate location for the api_defaults config' +
-        ' file\n api_defaults configures shared metadata that is may be' +
-        ' included in all the package files',
+        ' file.\n api_defaults.yml configures shared package metadata to ' +
+        ' be used in packages of any language.',
       dest: 'apiDefaultsFile'
     }
   );
   cli.addArgument(
     [ '--dependencies_file' ],
     {
-      help: 'Specifies an alternate location for the deps config file\n' +
-        'dependencies configures the package dependencies to include in the ' +
-        ' generated package file',
+      help: 'Specifies an alternate location for the deps config file.\n' +
+        'dependencies.yml configures the per-language dependencies'
+        + ' that each language package relies on',
       dest: 'depsFile'
     }
   );
   cli.addArgument(
     [ '--common_protos_file' ],
     {
-      help: 'Specifies an alternate location for the common protos config file\n' +
-        'common_protos configures the paths to include when generating ' +
-        ' common protos',
+      help: 'Specifies an alternate location for the common protos config '
+            + 'file. common_protos.yml configures the paths to include when '
+            + 'generating the packages that contain common protos',
       dest: 'commonPbFile'
     }
   );
@@ -149,12 +149,24 @@ var parseArgs = function parseArgs() {
     }
   );
   cli.addArgument(
+    [ '--template_root' ],
+    {
+      defaultValue:  path.join(__dirname, '..', 'templates'),
+      help: 'The root dir for the package templates. \n' +
+        'Allows alternate templates to be used during package' +
+        ' generation. The template root must contain the same files' +
+        ' for any specified languages as in the builtin template root',
+      dest: 'templateRoot'
+    }
+  );
+  cli.addArgument(
     [ '-g', '--is_google_api' ],
     {
       defaultValue: true,
       action: 'storeTrue',
       help: 'When set indicates that the API is an official google API.\n'
-            + ' This means that there is a top-level google dir beneath the root',
+            + ' It means that there is a top-level "google" directory in'
+            + ' the target protocol buffer repository',
       dest: 'isGoogleApi'
     }
   );
@@ -162,12 +174,15 @@ var parseArgs = function parseArgs() {
     [ '--override_plugins' ],
     {
       action: 'append',
-      help: 'Specifies the override protoc plugins to be used\n',
+      help: 'Specifies the override protoc plugins to be used.\n'
+          + ' E.g by default the plugin for python is named grpc_python_plugin'
+          + ' this can be modified by specifying '
+          +' --override_plugins python=other_rpc_python_plugin',
       dest: 'overridePlugins'
     }
   );
   return cli.parseArgs();
-}
+};
 
 var parsePlugins = function parsePlugins(pluginSpecs) {
   var parsedSpecs = [];
@@ -184,7 +199,6 @@ var parsePlugins = function parsePlugins(pluginSpecs) {
   }
   return _.object(parsedSpecs);
 };
-
 
 /**
  * main is the command line entry point when this file is run as a script.

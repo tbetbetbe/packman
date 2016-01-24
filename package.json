@@ -1,10 +1,10 @@
 {
   "name": "googleapis-packman",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "bin": {
     "gen-api-package": "bin/gen-api-package"
   },
-  "description": "Creates language packages for google apis",
+  "description": "Creates language packages for protobuf IDL APIs",
   "main": "lib/api_repo.js",
   "devDependencies": {
     "chai": "~3.0.0",
@@ -33,6 +33,6 @@
     "lint": "jshint lib test bin",
     "env": "env"
   },
-  "author": "Timothy Emiola",
-  "license": "BSD"
+  "author": "Google Inc",
+  "license": "BSD-3-Clause"
 }
