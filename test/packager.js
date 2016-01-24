@@ -303,7 +303,8 @@ describe('the nodejs package builder', function() {
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'package.json'
+      'package.json',
+      'README.md'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
