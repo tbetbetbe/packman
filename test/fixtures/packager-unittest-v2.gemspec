@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email         = 'googleapis-packages@google.com'
   s.files         = Dir.glob(File.join('lib', '**', '*.rb'))
   s.homepage      = 'https://github.com/google/googleapis'
-  s.license       = 'Apache'
+  s.license       = 'BSD-3-Clause'
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 2.0.0'

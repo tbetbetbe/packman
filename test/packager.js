@@ -83,7 +83,7 @@ var testPackageInfo = {
     'email': 'googleapis-packages@google.com',
     'github_user_uri': 'https://github.com/google',
     'homepage': 'https://github.com/google/googleapis',
-    'license': 'Apache',
+    'license': 'BSD-3-Clause',
     'name': 'packager-unittest',
     'simplename': 'packager',
     'version': 'v2',
@@ -149,7 +149,6 @@ describe('the go package builder', function() {
       top: top
     }, templateDirs.go);
     var copies = [
-      'LICENSE',
       'PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {
@@ -176,7 +175,6 @@ describe('the objective c package builder', function() {
       top: top
     }, templateDirs.objective_c);
     var copies = [
-      'LICENSE',
       'PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {
@@ -211,7 +209,6 @@ describe('the python package builder', function() {
       top: top
     }, templateDirs.python);
     var copies = [
-      'LICENSE',
       'PUBLISHING.rst'
     ];
     var checkCopies = function checkCopies(next) {
@@ -261,7 +258,6 @@ describe('the ruby package builder', function() {
 
     var copies = [
       'Gemfile',
-      'LICENSE',
       'PUBLISHING.md',
       'Rakefile'
     ];
@@ -299,7 +295,6 @@ describe('the nodejs package builder', function() {
     }, templateDirs.nodejs);
     var copies = [
       'index.js',
-      'LICENSE',
       'PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {

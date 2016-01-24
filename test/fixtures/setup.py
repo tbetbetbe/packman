@@ -25,7 +25,7 @@ setuptools.setup(
     'Intended Audience :: Developers',
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: Apache Software License',
+    'License :: OSI Approved :: BSD License',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: Implementation :: CPython',
@@ -33,7 +33,7 @@ setuptools.setup(
   description='GRPC library for service packager-unittest-v2',
   long_description=open('README.rst').read(),
   install_requires=install_requires,
-  license='Apache',
+  license='BSD-3-Clause',
   packages=find_packages(),
   namespace_packages=['pkgTop', 'pkgTop.pkgNext', ],
   url='https://github.com/google/googleapis'

@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.authors  = { 'Google Inc' => 'googleapis-packages@google.com' }
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
-  s.license  = 'Apache'
+  s.license  = 'BSD-3-Clause'
   s.source   = {
     :git => 'https://github.com/google/packager-unittest',
     :tag => "#{s.version}"
