@@ -224,6 +224,10 @@ var main = function main() {
   if (opts.repoDir) {
     opts.repoDir = path.resolve(opts.repoDir);
   }
+  if (!opts.apiName) {
+    console.error('Please specify a value for --api-name');
+    process.exit(1);
+  }
   var repo = new ApiRepo(opts);
   var parts = opts.apiName.split('/');
   var apiName = parts[0];
