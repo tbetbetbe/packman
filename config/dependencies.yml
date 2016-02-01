@@ -19,9 +19,9 @@ grpc:
     osx:
       deployment_target: '10.8'
   python:
-    version: '0.9.0a0'
+    version: '0.11.0b1'
   ruby:
-    version: '0.9.3'
+    version: '0.12.0'
   nodejs:
     version: '0.12.0'
 
@@ -29,7 +29,7 @@ protobuf:
   python:
     version: '3.0.0b2'
   ruby:
-    version: '3.0.0-alpha-3'
+    version: '3.0.0.alpha.5.0'
 
 googleapis_common_protos:
   python:
