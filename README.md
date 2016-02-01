@@ -54,7 +54,7 @@ Optional arguments:
                         Include path for additional protos. This is a
                         PATH-like value used to locate shared proto
                         defintions outside of an apis directory, but within
-                        services_root or repository
+                        services_root or repository.
   -o OUTDIR, --out_dir OUTDIR
                         The directory in which the generated packages will be
                         saved.
@@ -62,7 +62,7 @@ Optional arguments:
                         Name of the api to generate. The name should include
                         the version component; e.g. use "pubsub/v1" to
                         specify the protos in pubsub/v1 sub-directory of the
-                        services_root
+                        services_root.
   -l [LANGUAGES [LANGUAGES ...]], --languages [LANGUAGES [LANGUAGES ...]]
                         Specifies the language for which packages should be
                         generated.
@@ -73,7 +73,7 @@ Optional arguments:
   -u ZIPURL, --zip_url ZIPURL
                         URL of a git repository containing the rpc proto
                         definitions. Should not be specified with
-                        -r/--services_root, which will be ignored
+                        -r/--services_root, which will be ignored.
   --api_defaults_file APIDEFAULTSFILE
                         Specifies an alternate location for the api_defaults
                         config file. api_defaults.yml configures shared
@@ -82,28 +82,29 @@ Optional arguments:
   --dependencies_file DEPSFILE
                         Specifies an alternate location for the deps config
                         file. dependencies.yml configures the per-language
-                        dependencies that each language package relies on
+                        dependencies that each language package relies on.
   --common_protos_file COMMONPBFILE
                         Specifies an alternate location for the common protos
                         config file. common_protos.yml configures the paths
                         to include when generating the packages that contain
-                        common protos
+                        common protos.
   --package_prefix PKGPREFIX
                         Prefix to use when constructing package names if
                         is_google_api is set, this defaults to "grpc-google-"
-                        otherwise the default is ""
+                        otherwise the default is "".
   --template_root TEMPLATEROOT
                         The root dir for the package templates. Allows
                         alternate templates to be used during package
                         generation. The template root must contain the same
                         files for any specified languages as in the builtin
-                        template root
+                        template root.
   -g, --is_google_api   When set indicates that the API is an official google
                         API. It means that there is a top-level "google"
-                        directory in the target protocol buffer repository
+                        directory in the target protocol buffer repository.
   --override_plugins OVERRIDEPLUGINS
                         Specifies the override protoc plugins to be used. E.g
                         by default the plugin for python is named
-                        grpc_python_plugin this can be modified by specifying
-                        --override_plugins python=other_rpc_python_plugin
+                        grpc_python_plugin. This can be modified by
+                        specifying --override_plugins
+                        python=other_rpc_python_plugin.
 ```
