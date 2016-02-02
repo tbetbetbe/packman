@@ -15,7 +15,7 @@ TO TEST
 -------
 
 ```
-  $ ./gradlew install -b <generated-package-name>.gradle
+  $ ./gradlew install
 ```
 
 Then find the package in `~/.m2/repository/com/google/apis/`
