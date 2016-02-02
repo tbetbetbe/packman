@@ -315,6 +315,7 @@ describe('ApiRepo', function() {
         // The test uses the fake protoc, so it just echoes its args
         var want = '--python_out=' + path.join(repo.outDir, 'python');
         want += ' -I.';
+        want += ' -I/usr/local/include';
         want += ' --grpc_out=' + path.join(repo.outDir, 'python');
         want += ' --plugin=protoc-gen-grpc=/testing/bin/my_python_plugin';
         want += ' ' + fakeProto + '\n';
@@ -327,6 +328,28 @@ describe('ApiRepo', function() {
       }, 'python');
       protoc(fakeProto, shouldPass);
     });
+    it('should obtain a func that runs protoc with the right includePath',
+       function(done) {
+         var shouldPass = function(err, got) {
+           expect(err).to.be.null();
+           // The test uses the fake protoc, so it just echoes its args
+           var want = '--python_out=' + path.join(repo.outDir, 'python');
+           want += ' -I.';
+           want += ' -I/an/include/path';
+           want += ' -I/another/include/path';
+           want += ' --grpc_out=' + path.join(repo.outDir, 'python');
+           want += ' --plugin=protoc-gen-grpc=/testing/bin/my_python_plugin';
+           want += ' ' + fakeProto + '\n';
+        expect(got).to.contain(want);
+           done();
+         };
+         repo.depBins = {'grpc_python_plugin': '/testing/bin/my_python_plugin'};
+         repo.includePath = ['/an/include/path', '/another/include/path'];
+         var protoc = repo._makeProtocFunc({
+           env: {'PATH': fakes.path}
+         }, 'python');
+         protoc(fakeProto, shouldPass);
+       });
     it('should obtain a func that runs protoc for GoLang', function(done) {
       var shouldPass = function(err, got) {
         expect(err).to.be.null();

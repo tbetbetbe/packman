@@ -64,9 +64,10 @@ var parseArgs = function parseArgs() {
   cli.addArgument(
     [ '-i', '--include_path' ],
     {
-      help: 'Include path for additional protos.\n' +
-        'This is a PATH-like value used to locate shared proto defintions' +
-        ' outside of an apis directory, but within services_root or repository.',
+      action: 'append',
+      help: 'Include paths for additional protos.\n' +
+        'This is can specified multiple times and specifies directories' +
+        ' outside the --services_root that contain proto dependencies.',
       dest: 'includePath'
     }
   );
