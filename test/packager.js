@@ -14,11 +14,14 @@ var templateDirs = {
   go: {
     templateDir: path.join(__dirname, '..', 'templates', 'go')
   },
-  objective_c: {
-    templateDir: path.join(__dirname, '..', 'templates', 'objc')
+  java: {
+    templateDir: path.join(__dirname, '..', 'templates', 'java')
   },
   nodejs: {
     templateDir: path.join(__dirname, '..', 'templates', 'nodejs')
+  },
+  objective_c: {
+    templateDir: path.join(__dirname, '..', 'templates', 'objc')
   },
   python: {
     templateDir: path.join(__dirname, '..', 'templates', 'python')
@@ -104,6 +107,12 @@ var testPackageInfo = {
       core: {
         version: '0.9.0'
       },
+      java: {
+        version: '0.12.0'
+      },
+      nodejs: {
+        version: '0.10.0'
+      },
       objc: {
         ios: {
           deployment_target: '6.0'
@@ -118,9 +127,6 @@ var testPackageInfo = {
       },
       ruby: {
         version: '0.9.3'
-      },
-      nodejs: {
-        version: '0.10.0'
       }
     },
     auth: {
@@ -313,6 +319,43 @@ describe('the nodejs package builder', function() {
     };
     async.series([
       packager.nodejs.bind(null, opts),
+      checkCopies,
+      checkExpanded
+    ], done);
+  });
+});
+
+describe('the java package builder', function() {
+  var top;
+  beforeEach(function() {
+    top = tmp.dirSync().name;
+  });
+
+  it ('should construct a java package', function(done) {
+    var opts = _.merge({
+      packageInfo: testPackageInfo,
+      top: top
+    }, templateDirs.java);
+
+    var copies = [
+      'gradlew.bat',
+      'gradlew',
+    ];
+    var checkCopies = function checkCopies(next) {
+      var checkACopy = genCopyCompareFunc(top, 'java');
+      var copyTasks = _.map(copies, checkACopy);
+      async.parallel(copyTasks, next);
+    };
+    var expanded = [
+      'build.gradle'
+    ];
+    var compareWithFixture = genFixtureCompareFunc(top);
+    var checkExpanded = function checkExpanded(next) {
+      var expandTasks = _.map(expanded, compareWithFixture);
+      async.parallel(expandTasks, next);
+    };
+    async.series([
+      packager.java.bind(null, opts),
       checkCopies,
       checkExpanded
     ], done);
