@@ -84,6 +84,9 @@ describe('ApiRepo', function() {
             expect(err).to.not.be.null();
             done();
           };
+          repo.on('error', function(err) {
+            expect(err).to.not.be.null();
+          });
           repo.on('ready', function() {
             repo.buildPackages('notpubsub', 'v1beta2', shouldFail);
           });
@@ -162,7 +165,7 @@ describe('ApiRepo', function() {
         });
         it('should fail on unrecognized apis', function(done) {
           repo.on('error', function(err) {
-            throw new Error('should not be reached');
+            expect(err).to.not.be.null();
           });
           var shouldFail = function shouldFail(err) {
             expect(err).to.not.be.null();
@@ -175,7 +178,7 @@ describe('ApiRepo', function() {
         });
         it('should fail on unrecognized versions', function(done) {
           repo.on('error', function(err) {
-            throw new Error('should not be reached');
+            expect(err).to.not.be.null();
           });
           var shouldFail = function shouldFail(err) {
             expect(err).to.not.be.null();
