@@ -25,7 +25,7 @@ setuptools.setup(
     'Intended Audience :: Developers',
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: BSD License',
+    'License :: OSI Approved :: Apache Software License',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: Implementation :: CPython',
