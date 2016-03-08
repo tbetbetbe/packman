@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'grpc', '~> 0.9.3'
   s.add_dependency 'googleauth', '~> 0.4.1'
+  s.add_dependency 'googleapis-common-protos', '~> 3.0.0b1.1'
 
   s.add_development_dependency 'bundler', '~> 1.9'
   s.add_development_dependency 'rake', '~> 10.4'

@@ -117,6 +117,9 @@ var testPackageInfo = {
     googleapis_common_protos: {
       python: {
         version: '3.0.0b1.1'
+      },
+      ruby: {
+        version: '3.0.0b1.1'
       }
     },
     grpc: {
