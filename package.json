@@ -1,12 +1,12 @@
 {
   "name": "googleapis-packman",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "bin": {
     "gen-api-package": "bin/gen-api-package"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/googleapis/googleapis-packman.git"
+    "url": "https://github.com/googleapis/packman.git"
   },
   "description": "Creates language packages for protobuf IDL APIs",
   "main": "lib/api_repo.js",
