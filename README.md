@@ -6,6 +6,15 @@ programming languages from services defined in protocol buffer IDL.
 
 ## Examples
 
+Generate the python package for protos in a local directory.  The directory
+defines protobuf services in a layout similar to that of
+[googleapis](https://github.com/google/googleapis)
+
+
+```
+gen-api-package --api_name=my_new_service/v1 -l python -r my_protobuf_dir
+```
+
 Generate the python package for Google's logging/v2 API, where logging/v2 is
 service defined in [googleapis](https://github.com/google/googleapis).
 
@@ -13,6 +22,7 @@ service defined in [googleapis](https://github.com/google/googleapis).
 ```
 gen-api-package --api_name=logging/v2 -l python
 ```
+
 
 Generate the ruby package for Google's pubsub/v1 API, where pubsub/v1 is
 service defined in [googleapis](https://github.com/google/googleapis).
