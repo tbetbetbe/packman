@@ -1,6 +1,6 @@
 {
   "name": "googleapis-packman",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "bin": {
     "gen-api-package": "bin/gen-api-package"
   },
