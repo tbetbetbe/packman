@@ -246,8 +246,14 @@ var main = function main() {
   }
   var repo = new ApiRepo(opts);
   var parts = opts.apiName.split('/');
+  var numParts = parts.length;
   var apiName = parts[0];
   var apiVersion = parts[1] || '';
+  if (numParts > 2) {
+     apiName = parts.slice(0, numParts - 1).join('/');
+     apiVersion = parts[numParts - 1];
+  }
+
   repo.on('ready', function() {
     if (opts.buildCommonProtos) {
       repo.buildCommonProtoPkgs();
