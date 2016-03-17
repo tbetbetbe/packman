@@ -36,7 +36,7 @@ var templateDirs = {
   nodejs: {
     templateDir: path.join(__dirname, '..', 'templates', 'nodejs')
   },
-  objective_c: {
+  objc: {
     templateDir: path.join(__dirname, '..', 'templates', 'objc')
   },
   python: {
@@ -198,7 +198,7 @@ describe('the objective c package builder', function() {
     var opts = _.merge({
       packageInfo: testPackageInfo,
       top: path.join(top, 'objc')
-    }, templateDirs.objective_c);
+    }, templateDirs.objc);
     var copies = [
       'objc/PUBLISHING.md'
     ];
