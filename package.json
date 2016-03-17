@@ -1,6 +1,6 @@
 {
   "name": "googleapis-packman",
-  "version": "0.5.1",
+  "version": "0.5.4",
   "bin": {
     "gen-api-package": "bin/gen-api-package"
   },
@@ -35,9 +35,10 @@
   },
   "scripts": {
     "codecov": "istanbul cover _mocha -- --reporter spec --slow 500 --timeout 5000 && codecov",
-    "test": "istanbul test _mocha -- --reporter spec --slow 500 --timeout 5000",
+    "preversion": "npm test && npm run lint",
+    "postversion": "git push origin && git push origin --tags",
     "lint": "jshint lib test bin",
-    "env": "env"
+    "test": "istanbul test _mocha -- --reporter spec --slow 500 --timeout 5000"
   },
   "author": "Google Inc",
   "license": "Apache-2.0"
