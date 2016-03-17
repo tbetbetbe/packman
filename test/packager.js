@@ -36,7 +36,7 @@ var templateDirs = {
   nodejs: {
     templateDir: path.join(__dirname, '..', 'templates', 'nodejs')
   },
-  objective_c: {
+  objc: {
     templateDir: path.join(__dirname, '..', 'templates', 'objc')
   },
   python: {
@@ -81,15 +81,15 @@ function filesEqual(file1, file2, done) {
 
 function genFixtureCompareFunc(top) {
   return function compareWithFixture(c) {
-    var want = path.join(__dirname, 'fixtures', path.basename(c));
+    var want = path.join(__dirname, 'fixtures', c);
     var got = path.join(top, c);
     return filesEqual.bind(null, want, got);
   };
 }
 
-function genCopyCompareFunc(top, language) {
+function genCopyCompareFunc(top) {
   return function checkACopy(c) {
-    var want = path.join(__dirname, '..', 'templates', language, c);
+    var want = path.join(__dirname, '..', 'templates', c);
     var got = path.join(top, c);
     return filesEqual.bind(null, want, got);
   };
@@ -171,13 +171,13 @@ describe('the go package builder', function() {
   it ('should construct a go package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
+      top: path.join(top, 'go')
     }, templateDirs.go);
     var copies = [
-      'PUBLISHING.md'
+      'go/PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'go');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
@@ -197,18 +197,18 @@ describe('the objective c package builder', function() {
   it ('should construct a objc package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
-    }, templateDirs.objective_c);
+      top: path.join(top, 'objc')
+    }, templateDirs.objc);
     var copies = [
-      'PUBLISHING.md'
+      'objc/PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'objc');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'packager-unittest-v2.podspec'
+      'objc/packager-unittest-v2.podspec'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
@@ -231,29 +231,29 @@ describe('the python package builder', function() {
   it ('should construct a python package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
+      top: path.join(top, 'python')
     }, templateDirs.python);
     var copies = [
-      'PUBLISHING.rst'
+      'python/PUBLISHING.rst'
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'python');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'setup.py',
-      'README.rst'
+      'python/README.rst',
+      'python/setup.py'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
       var expandTasks = _.map(expanded, compareWithFixture);
       async.parallel(expandTasks, next);
     };
-    fs.mkdirpSync(path.join(top, 'pkgTop', 'pkgNext'));
+    fs.mkdirpSync(path.join(top, 'python', 'pkgTop', 'pkgNext'));
     var checkPkgDirs = function checkPkgDir(next) {
-      var topPkgFile = path.join('pkgTop', '__init__.py');
-      var nextPkgFile = path.join('pkgTop', 'pkgNext', '__init__.py');
+      var topPkgFile = path.join('python', 'pkgTop', '__init__.py');
+      var nextPkgFile = path.join('python', 'pkgTop', 'pkgNext', '__init__.py');
       async.parallel([
         compareWithFixture(topPkgFile),
         compareWithFixture(nextPkgFile)
@@ -278,21 +278,21 @@ describe('the ruby package builder', function() {
   it ('should construct a ruby package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
+      top: path.join(top, 'ruby')
     }, templateDirs.ruby);
 
     var copies = [
-      'Gemfile',
-      'PUBLISHING.md',
-      'Rakefile'
+      'ruby/Gemfile',
+      'ruby/PUBLISHING.md',
+      'ruby/Rakefile'
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'ruby');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'packager-unittest-v2.gemspec'
+      'ruby/packager-unittest-v2.gemspec'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
@@ -316,20 +316,20 @@ describe('the nodejs package builder', function() {
   it ('should construct a nodejs package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
+      top: path.join(top, 'nodejs')
     }, templateDirs.nodejs);
     var copies = [
-      'index.js',
-      'PUBLISHING.md'
+      'nodejs/index.js',
+      'nodejs/PUBLISHING.md'
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'nodejs');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'package.json',
-      'README.md'
+      'nodejs/package.json',
+      'nodejs/README.md'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {
@@ -353,20 +353,20 @@ describe('the java package builder', function() {
   it ('should construct a java package', function(done) {
     var opts = _.merge({
       packageInfo: testPackageInfo,
-      top: top
+      top: path.join(top, 'java')
     }, templateDirs.java);
 
     var copies = [
-      'gradlew.bat',
-      'gradlew',
+      'java/gradlew.bat',
+      'java/gradlew',
     ];
     var checkCopies = function checkCopies(next) {
-      var checkACopy = genCopyCompareFunc(top, 'java');
+      var checkACopy = genCopyCompareFunc(top);
       var copyTasks = _.map(copies, checkACopy);
       async.parallel(copyTasks, next);
     };
     var expanded = [
-      'build.gradle'
+      'java/build.gradle'
     ];
     var compareWithFixture = genFixtureCompareFunc(top);
     var checkExpanded = function checkExpanded(next) {

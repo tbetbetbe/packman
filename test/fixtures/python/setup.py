@@ -1,4 +1,4 @@
-"""A setup module for the GRPC packager-unittest service.
+"""A setup module for the GRPC packager service.
 
 See:
 https://packaging.python.org/en/latest/distributing.html
@@ -30,7 +30,7 @@ setuptools.setup(
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: Implementation :: CPython',
   ],
-  description='GRPC library for service packager-unittest-v2',
+  description='GRPC library for the packager-v2 service',
   long_description=open('README.rst').read(),
   install_requires=install_requires,
   license='BSD-3-Clause',
