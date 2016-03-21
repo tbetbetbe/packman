@@ -40,6 +40,10 @@ grpc:
   nodejs:
     version: '0.13.0'
 
+gax:
+  python:
+    version: '0.8.0'
+
 protobuf:
   python:
     version: '3.0.0b2'
