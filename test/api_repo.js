@@ -125,7 +125,7 @@ describe('ApiRepo', function() {
             throw new Error('should not be reached');
           });
           repo.on('ready', function() {
-            repo.buildPackages('pubsub', 'v1beta2', passesOn(done));
+            repo.buildPackages('pubsub', 'v1', passesOn(done));
           });
           repo.setUp();
         });

@@ -234,7 +234,8 @@ describe('the python package builder', function() {
       top: path.join(top, 'python')
     }, templateDirs.python);
     var copies = [
-      'python/PUBLISHING.rst'
+      'python/PUBLISHING.rst',
+      'python/MANIFEST.in'
     ];
     var checkCopies = function checkCopies(next) {
       var checkACopy = genCopyCompareFunc(top);
