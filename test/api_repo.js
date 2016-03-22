@@ -105,6 +105,7 @@ describe('ApiRepo', function() {
         repo = new ApiRepo({
           env: {'PATH': fakes.path},
           isGoogleApi: true,
+          includePath: [path.join(__dirname, 'fixtures', 'include')],
           languages: ['nodejs'],
           templateRoot: path.join(__dirname, '..', 'templates')
         });
@@ -120,7 +121,7 @@ describe('ApiRepo', function() {
           });
           repo.setUp();
         });
-        it.skip('should pass for known packages', function(done) {
+        it('should pass for known packages', function(done) {
           repo.on('error', function(err) {
             throw new Error('should not be reached');
           });
@@ -376,14 +377,10 @@ describe('ApiRepo', function() {
         };
         var shouldBeOK = function(err, protos) {
           var want = [
-            path.join(repo.repoDir, 'google', f[0], f[1], f[2])
-          ];
-          var shorterWant = [
-            path.join(repo.repoDir, 'google', f[0], f[1], f[2])
+            path.join('google', f[0], f[1], f[2])
           ];
           expect(err).to.be.null();
           expect(protos).to.deep.eql(want);
-          expect(shorterWant).to.deep.eql(want);
           done();
         };
         repo._findProtos(f[0], f[1], shouldBeOK, onProto);
