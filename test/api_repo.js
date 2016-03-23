@@ -86,7 +86,7 @@ var errsOn = function errsOn(done) {
     done();
   };
   return shouldFail;
-}
+};
 
 var passesOn = function passesOn(done) {
   var shouldPass = function shouldPass(err) {
@@ -94,7 +94,7 @@ var passesOn = function passesOn(done) {
     done();
   };
   return shouldPass;
-}
+};
 
 describe('ApiRepo', function() {
   describe('on the test fixture repo with no plugins', function() {
