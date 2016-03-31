@@ -77,6 +77,7 @@ var getsGoodZipFrom = function getsGoodZipFrom(uri) {
   if (urlObj.protocol == "https") {
     host =+ ":443";
   }
+  console.log('Getting zip at %s%s', urlObj.hostname, urlObj.pathname);
   nock(host).get(urlObj.pathname).replyWithFile(200, goodZip);
 };
 
@@ -101,9 +102,7 @@ describe('ApiRepo', function() {
     var fakes, repo;
     describe('configured for nodejs', function(){
       beforeEach(function() {
-        fakes = addFakeBinsToPath.apply(null, []);
         repo = new ApiRepo({
-          env: {'PATH': fakes.path},
           isGoogleApi: true,
           includePath: [path.join(__dirname, 'fixtures', 'include')],
           languages: ['nodejs'],
@@ -123,10 +122,79 @@ describe('ApiRepo', function() {
         });
         it('should pass for known packages', function(done) {
           repo.on('error', function(err) {
+            expect(err).to.be.null();
+          });
+          repo.on('ready', function() {
+            console.log('about to build pubsub v1 nodejs packages');
+            repo.buildPackages('pubsub', 'v1', passesOn(done));
+          });
+          repo.setUp();
+        });
+      });
+    });
+    describe('configured for python', function(){
+      beforeEach(function() {
+        var testBins = ['protoc', 'grpc_python_plugin'];
+        fakes = addFakeBinsToPath.apply(null, testBins);
+        repo = new ApiRepo({
+          env: {'PATH': fakes.path},
+          isGoogleApi: true,
+          languages: ['python'],
+          templateRoot: path.join(__dirname, '..', 'templates')
+        });
+        getsGoodZipFrom(repo.zipUrl);
+      });
+      describe('method `buildGaxPackages`', function() {
+        it('should succeed with unrecognized apis', function(done) {
+          repo.on('error', function(err) {
+            expect(err).to.not.be.null();
+          });
+          repo.on('ready', function() {
+            repo.buildGaxPackages('notpubsub', 'v1beta2', passesOn(done));
+          });
+          repo.setUp();
+        });
+        it('should pass for known packages', function(done) {
+          repo.on('error', function(err) {
             throw new Error('should not be reached');
           });
           repo.on('ready', function() {
-            repo.buildPackages('pubsub', 'v1', passesOn(done));
+            repo.buildGaxPackages('pubsub', 'v1beta2', passesOn(done));
+          });
+          repo.setUp();
+        });
+      });
+      describe('method `buildCommonProtoPkgs`', function() {
+        it('should pass', function(done) {
+          repo.on('error', function(err) {
+            throw new Error('should not be reached');
+          });
+          repo.on('ready', function() {
+            repo.buildCommonProtoPkgs(passesOn(done));
+          });
+          repo.setUp();
+        });
+      });
+    });
+    describe('configured for ruby', function(){
+      beforeEach(function() {
+        var testBins = ['protoc', 'grpc_ruby_plugin'];
+        fakes = addFakeBinsToPath.apply(null, testBins);
+        repo = new ApiRepo({
+          env: {'PATH': fakes.path},
+          isGoogleApi: true,
+          languages: ['ruby'],
+          templateRoot: path.join(__dirname, '..', 'templates')
+        });
+        getsGoodZipFrom(repo.zipUrl);
+      });
+      describe('method `buildCommonProtoPkgs`', function() {
+        it('should pass', function(done) {
+          repo.on('error', function(err) {
+            throw new Error('should not be reached');
+          });
+          repo.on('ready', function() {
+            repo.buildCommonProtoPkgs(passesOn(done));
           });
           repo.setUp();
         });
@@ -407,52 +475,32 @@ describe('ApiRepo', function() {
         repoDir: withSubdir,
         isGoogleApi: true
       });
-      var shouldBeOK = function(err) {
-        expect(err).to.be.null();
-        done();
-      };
-      repo._checkRepo(shouldBeOK);
+      repo._checkRepo(passesOn(done));
     });
     it('should pass if repoDir is present', function(done) {
       var repo = new ApiRepo({
         repoDir: withoutSubdir
       });
-      var shouldBeOK = function(err) {
-        expect(err).to.be.null();
-        done();
-      };
-      repo._checkRepo(shouldBeOK);
+      repo._checkRepo(passesOn(done));
     });
     it('should fail if repoDir is missing reqd subdir', function(done) {
       var repo = new ApiRepo({
         repoDir: withoutSubdir,
         isGoogleApi: true
       });
-      var shouldError = function(err) {
-        expect(err).to.be.ok();
-        done();
-      };
-      repo._checkRepo(shouldError);
+      repo._checkRepo(errsOn(done));
     });
     it('should fail if repoDir does not exist', function(done) {
       var repo = new ApiRepo({
         repoDir: doesNotExist
       });
-      var shouldError = function(err) {
-        expect(err).to.be.ok();
-        done();
-      };
-      repo._checkRepo(shouldError);
+      repo._checkRepo(errsOn(done));
     });
     it('should fail if repoDir is a file', function(done) {
       var repo = new ApiRepo({
         repoDir: notADir
       });
-      var shouldError = function(err) {
-        expect(err).to.be.ok();
-        done();
-      };
-      repo._checkRepo(shouldError);
+      repo._checkRepo(errsOn(done));
     });
     describe('when no repoDir is set', function(){
       it('should download the default repo', function(done) {
@@ -499,11 +547,7 @@ describe('ApiRepo', function() {
       var repo = new ApiRepo({
         languages: []
       });
-      var shouldError = function(err) {
-        expect(err).to.be.ok();
-        done();
-      };
-      repo._checkDeps({env: {'PATH': 'ignored'}}, shouldError);
+      repo._checkDeps({env: {'PATH': 'ignored'}}, errsOn(done));
     });
     it('should pass if protoc is on the PATH', function(done) {
       var repo = new ApiRepo({
@@ -531,11 +575,7 @@ describe('ApiRepo', function() {
       var repo = new ApiRepo({
         languages: ['lisp', 'scala', 'scheme']
       });
-      var shouldError = function(err) {
-        expect(err).to.be.ok();
-        done();
-      };
-      repo._checkDeps({env: {'PATH': fakes.path}}, shouldError);
+      repo._checkDeps({env: {'PATH': fakes.path}}, errsOn(done));
     });
   });
 });

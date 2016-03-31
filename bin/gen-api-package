@@ -34,7 +34,7 @@
  * ```sh
  * $ # clone the googleapis locally
  * $ pushd ..
- * $ git clone git@github.com:google/googleapis.git
+ * $ git clone git@github.com:googleapis/googleapis.git
  * $ # do some work in it, e.g, to test a change
  * $ ...
  * $ popd  # back to the original wd
@@ -91,6 +91,13 @@ var parseArgs = function parseArgs() {
     {
       help: 'The directory in which the generated packages will be saved.',
       dest: 'outDir'
+    }
+  );
+  cli.addArgument(
+    [ '--gax_dir' ],
+    {
+      help: 'The directory in which a partial gax package has been created.',
+      dest: 'gaxDir'
     }
   );
   cli.addArgument(
@@ -240,6 +247,12 @@ var main = function main() {
   if (opts.repoDir) {
     opts.repoDir = path.resolve(opts.repoDir);
   }
+  if (opts.gaxDir) {
+    opts.gaxDir = path.resolve(opts.gaxDir);
+    opts.isGoogleApi = true;
+    opts.pkgPrefix = 'gax-google-';
+    opts.outDir = opts.gaxDir;
+  }
   if (!opts.apiName) {
     console.error('Please specify a value for --api-name');
     process.exit(1);
@@ -255,7 +268,9 @@ var main = function main() {
   }
 
   repo.on('ready', function() {
-    if (opts.buildCommonProtos) {
+    if (opts.gaxDir) {
+      repo.buildGaxPackages(apiName, apiVersion);
+    } else if (opts.buildCommonProtos) {
       repo.buildCommonProtoPkgs();
     } else {
       repo.buildPackages(apiName, apiVersion);
