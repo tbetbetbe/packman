@@ -2,9 +2,12 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-description = 'GRPC library for service {{api.name}}-{{api.version}}'
+description = 'Common protobufs used in Google APIs'
 group = "io.gapi"
-version = "{{api.semantic_version}}-SNAPSHOT"
+version = "0.0.0-SNAPSHOT"
+// version = "{{api.semantic_version}}-SNAPSHOT"
+// TODO: switch to this once all common protos are actually public
+
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
@@ -14,8 +17,7 @@ repositories {
 }
 
 dependencies {
-  compile "com.google.protobuf:protobuf-java:3.0.0-beta-1"
-  compile "io.gapi:googleapis-common-protos:0.0.0-SNAPSHOT"
+  compile "com.google.protobuf:protobuf-java:3.0.0-beta-2"
 }
 
 task javadocJar(type: Jar) {
@@ -38,6 +40,8 @@ signing {
 }
 
 uploadArchives.repositories.mavenDeployer {
+ // url to the snapshot repository of a private maven repo.
+  def privateSnapshotRepo = "http://104.197.230.53:8081/nexus/content/repositories/snapshots/"
   beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
   String stagingUrl
     if (rootProject.hasProperty('repositoryId')) {
@@ -52,7 +56,11 @@ uploadArchives.repositories.mavenDeployer {
     }
   }
   repository(url: stagingUrl, configureAuth)
-  snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/', configureAuth)
+  snapshotRepository(url: privateSnapshotRepo) {
+    authentication(userName: privateOssrhUsername, password: privateOssrhPassword)
+  }
+
+  // snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/', configureAuth)
 }
 
 [
@@ -60,7 +68,7 @@ uploadArchives.repositories.mavenDeployer {
   uploadArchives.repositories.mavenDeployer,
 ]*.pom { pom ->
   pom.project {
-    name "io.gapi:{{api.name}}-{{api.version}}"
+    name "io.gapi:{{api.name}}"
     description project.description
     url '{{{api.homepage}}}'
 
@@ -73,8 +81,8 @@ uploadArchives.repositories.mavenDeployer {
     licenses {
       license {
         name '{{api.license}}'
-        url '{{{api.license.url}}}'
-      }
+        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+     }
     }
 
     developers {
