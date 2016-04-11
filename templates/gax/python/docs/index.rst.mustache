@@ -1,29 +1,41 @@
 .. {{api.name}}-{{api.version}} sphinx documentation master file
 
-GAX library for the {{api.simplename}}-{{api.version}} service
-==============================================================
+
+GAX library for the Google {{api.simplename}} API
+=================================================
 
 This is the API documentation for ``{{api.name}}-{{api.version}}``.
 
 {{api.name}}-{{api.version}} uses google-gax_ (Google API extensions) to provide an
-easy-to-use client library for the {{api.simplename}} (api.version) service in the googleapis_ git repository
+easy-to-use client library for the `Google {{api.simplename}} API`_ ({{api.version}}) defined in the googleapis_ git repository
 
-Contents:
+.. _`google-gax`: https://github.com/googleapis/gax-python
+.. _`googleapis`: https://github.com/googleapis/googleapis/tree/master/google/{{api.path}}/{{api.version}}
+.. _`Google {{api.simplename}} API`: https://cloud.google.com/{{api.simplename}}/
+
+APIS
+----
 
 .. autosummary::
-   :toctree: generated
 
-   {{#api.pythonModules}}
+   {{#api.apiModules}}
    {{{.}}}
-   {{/api.pythonModules}}
+   {{/api.apiModules}}
+
+
+Contents
+--------
+
+.. toctree::
+
+   self
+   starting
+   apis
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. _`googleapis`: https://github.com/googleapis/googleapis/tree/master/google/{{api.path}}/{{api.version}}
-.. _`google-gax`: https://github.com/googleapis/gax-python

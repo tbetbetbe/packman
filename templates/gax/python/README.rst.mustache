@@ -1,7 +1,40 @@
-GAX library for the {{api.simplename}}-{{api.version}} service
+GAX library for the Google {{api.simplename}} API
+=================================================
 
-{{api.name}}-{{api.version}} uses google-gax_ (Google API extensions) to provide
-an easy-to-use client library for the {{api.simplename}} ({{api.version}}) service in the googleapis_ git repository
+{{api.name}}-{{api.version}} uses google-gax_ (Google API extensions) to provide an
+easy-to-use client library for the `Google {{api.simplename}} API`_ ({{api.version}}) defined in the googleapis_ git repository
+
 
 .. _`googleapis`: https://github.com/googleapis/googleapis/tree/master/google/{{api.path}}/{{api.version}}
 .. _`google-gax`: https://github.com/googleapis/gax-python
+.. _`Google {{api.simplename}} API`: https://cloud.google.com/{{api.simplename}}/
+
+Getting started
+---------------
+
+{{api.name}}-{{api.version}} will allow you to connect to the `Google {{api.simplename}} API`_ and access all its methods. In order to achieve so you need to set up authentication as well as install the library locally.
+
+
+Setup Authentication
+~~~~~~~~~~~~~~~~~~~~
+
+To authenticate all your API calls, first install and setup the `Google Cloud SDK`_.
+Once done, you can then run the following command in your terminal:
+
+.. code-block:: console
+
+    $ gcloud auth login
+
+.. _Google Cloud SDK: https://cloud.google.com/sdk/
+
+
+Install Gax Library
+~~~~~~~~~~~~~~~~~~~
+
+Install this library using pip:
+
+.. code-block:: console
+
+    $ [sudo] pip install {{api.name}}-{{api.version}}
+
+At this point you are all set to continue.

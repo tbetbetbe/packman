@@ -1,0 +1,68 @@
+Getting started
+===============
+
+{{api.name}}-{{api.version}} will allow you to connect to the `Google {{api.simplename}} API`_ and access all its methods. In order to achieve this, you need to set up authentication as well as install the library locally.
+
+.. _`Google {{api.simplename}} API`: https://cloud.google.com/{{api.simplename}}/
+
+
+Installation
+------------
+
+Install this library with pip:
+
+
+Linux (or Mac with Homebrew)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: console
+
+    [sudo] pip install {{api.name}}-{{api.version}}
+
+
+Mac/Linux (with virtualenv)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: console
+
+    pip install virtualenv
+    virtualenv <your-env>
+    source <your-env>/bin/activate
+    <your-env>/bin/pip install {{api.name}}-{{api.version}}
+
+Windows
+~~~~~~~
+
+.. code-block:: console
+
+    pip install virtualenv
+    virtualenv [ENV]
+    [ENV]\Scripts\activate
+    [ENV]\Scripts\pip.exe install {{api.name}}-{{api.version}}
+
+
+Using the API
+-------------
+
+
+Authentication
+~~~~~~~~~~~~~~
+
+To authenticate all your API calls, first install and setup the `Google Cloud SDK`_.
+Once done, you can then run the following command in your terminal:
+
+.. code-block:: console
+
+    $ gcloud auth login
+
+.. _Google Cloud SDK: https://cloud.google.com/sdk/
+
+
+At this point you are all set to continue.
+
+
+Examples
+~~~~~~~~
+
+To see example usage, please read through the :doc:`API reference </apis>`.  The
+documentation for each API method includes simple examples.
