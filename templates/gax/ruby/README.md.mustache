@@ -1,0 +1,36 @@
+GAX library for the Google {{api.simplename}} API
+=================================================
+
+{{api.name}}-{{api.version}} uses [google-gax][Google API extensions] to provide an
+easy-to-use client library for the [`Google {{api.simplename}} API`][] ({{api.version}}) defined in the [googleapis][] git repository
+
+
+[googleapis]: https://github.com/googleapis/googleapis/tree/master/google/{{api.path}}/{{api.version}}
+[google-gax]: https://github.com/googleapis/gax-ruby
+[`Google {{api.simplename}} API`]: https://cloud.google.com/{{api.simplename}}/
+
+Getting started
+---------------
+
+{{api.name}}-{{api.version}} will allow you to connect to the [`Google {{api.simplename}} API`][] and access all its methods. In order to achieve so you need to set up authentication as well as install the library locally.
+
+
+Setup Authentication
+--------------------
+
+To authenticate all your API calls, first install and setup the [`Google Cloud SDK`][].
+Once done, you can then run the following command in your terminal:
+
+    $ gcloud auth login
+
+[Google Cloud SDK]: https://cloud.google.com/sdk/
+
+
+Install Gax Library
+-------------------
+
+Install this library using gem:
+
+    $ [sudo] gem install {{api.name}}-{{api.version}}
+
+At this point you are all set to continue.

@@ -43,6 +43,8 @@ grpc:
 gax:
   python:
     version: '0.9.4'
+  ruby:
+    version: '0.1.0'
 
 protobuf:
   python:
