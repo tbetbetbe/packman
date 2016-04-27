@@ -1,18 +1,20 @@
-GAX library for the Google {{api.simplename}} API
-=================================================
+GAX library for the Google {{api.titlename}} API
+================================================================================
 
 {{api.name}}-{{api.version}} uses google-gax_ (Google API extensions) to provide an
-easy-to-use client library for the `Google {{api.simplename}} API`_ ({{api.version}}) defined in the googleapis_ git repository
+easy-to-use client library for the `Google {{api.titlename}} API`_ ({{api.version}}) defined in the googleapis_ git repository
 
 
 .. _`googleapis`: https://github.com/googleapis/googleapis/tree/master/google/{{api.path}}/{{api.version}}
 .. _`google-gax`: https://github.com/googleapis/gax-python
-.. _`Google {{api.simplename}} API`: https://cloud.google.com/{{api.simplename}}/
+.. _`Google {{api.titlename}} API`: https://developers.google.com/apis-explorer/?hl=en_US#p/{{api.shortname}}/{{api.version}}/
 
 Getting started
 ---------------
 
-{{api.name}}-{{api.version}} will allow you to connect to the `Google {{api.simplename}} API`_ and access all its methods. In order to achieve so you need to set up authentication as well as install the library locally.
+{{api.name}}-{{api.version}} will allow you to connect to the Google
+{{api.titlename}} API and access all its methods. In order to do this, you need
+to set up authentication as well as install the library locally.
 
 
 Setup Authentication
@@ -28,13 +30,40 @@ Once done, you can then run the following command in your terminal:
 .. _Google Cloud SDK: https://cloud.google.com/sdk/
 
 
-Install Gax Library
-~~~~~~~~~~~~~~~~~~~
+Installation
+~~~~~~~~~~~~
 
-Install this library using pip:
+Install this library in a `virtualenv`_ using pip. `virtualenv`_ is a tool to
+create isolated Python environments. The basic problem it addresses is one of
+dependencies and versions, and indirectly permissions.
+
+With `virtualenv`_, it's possible to install this library without needing system
+install permissions, and without clashing with the installed system
+dependencies.
+
+.. _`virtualenv`: https://virtualenv.pypa.io/en/latest/
+
+
+Mac/Linux
+~~~~~~~~~~
 
 .. code-block:: console
 
-    $ [sudo] pip install {{api.name}}-{{api.version}}
+    pip install virtualenv
+    virtualenv <your-env>
+    source <your-env>/bin/activate
+    <your-env>/bin/pip install {{api.name}}-{{api.version}}
+
+
+Windows
+~~~~~~~
+
+.. code-block:: console
+
+    pip install virtualenv
+    virtualenv <your-env>
+    <your-env>\Scripts\activate
+    <your-env>\Scripts\pip.exe install {{api.name}}-{{api.version}}
+
 
 At this point you are all set to continue.

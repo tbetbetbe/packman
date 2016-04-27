@@ -1,27 +1,28 @@
 Getting started
 ===============
 
-{{api.name}}-{{api.version}} will allow you to connect to the `Google {{api.simplename}} API`_ and access all its methods. In order to achieve this, you need to set up authentication as well as install the library locally.
+{{api.name}}-{{api.version}} will allow you to connect to the `Google {{api.titlename}} API`_ and access all its methods. In order to achieve this, you need to set up authentication as well as install the library locally.
 
-.. _`Google {{api.simplename}} API`: https://cloud.google.com/{{api.simplename}}/
+.. _`Google {{api.titlename}} API`: https://developers.google.com/apis-explorer/?hl=en_US#p/{{api.shortname}}/{{api.version}}/
 
 
 Installation
 ------------
 
-Install this library with pip:
+
+Install this library in a `virtualenv`_ using pip. `virtualenv`_ is a tool to
+create isolated Python environments. The basic problem it addresses is one of
+dependencies and versions, and indirectly permissions.
+
+With `virtualenv`_, it's possible to install this library without needing system
+install permissions, and without clashing with the installed system
+dependencies.
+
+.. _`virtualenv`: https://virtualenv.pypa.io/en/latest/
 
 
-Linux (or Mac with Homebrew)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: console
-
-    [sudo] pip install {{api.name}}-{{api.version}}
-
-
-Mac/Linux (with virtualenv)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mac/Linux
+~~~~~~~~~~
 
 .. code-block:: console
 
@@ -36,9 +37,9 @@ Windows
 .. code-block:: console
 
     pip install virtualenv
-    virtualenv [ENV]
-    [ENV]\Scripts\activate
-    [ENV]\Scripts\pip.exe install {{api.name}}-{{api.version}}
+    virtualenv <your-env>
+    <your-env>\Scripts\activate
+    <your-env>\Scripts\pip.exe install {{api.name}}-{{api.version}}
 
 
 Using the API
