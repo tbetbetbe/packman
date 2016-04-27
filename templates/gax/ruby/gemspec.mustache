@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.summary       = 'GAX library for the {{api.simplename}}-{{api.version}} service'
 
   s.add_dependency 'google-gax', '~> {{dependencies.gax.ruby.version}}'
-  s.add_dependency 'grpc-{{#api.isGoogleApi}}google-{{/api.isGoogleApi}}{{api.simplename}}-{{api.version}}', '~> {{api.semantic_version}}'
+  s.add_dependency '{{api.dependsOn}}-{{api.version}}', '~>{{api.semantic_version}}'
   s.add_dependency 'googleapis-common-protos', '~> {{dependencies.googleapis_common_protos.ruby.version}}'
 
   s.add_development_dependency 'bundler', '~> 1.9'
