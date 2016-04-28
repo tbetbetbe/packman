@@ -1,24 +1,44 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies { classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.6' }
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'com.google.protobuf'
 
-description = 'Common protobufs used in Google APIs'
+description = 'GRPC library for service {{api.name}}-{{api.version}}'
 group = "io.gapi"
-version = "0.0.0-SNAPSHOT"
-// version = "{{api.semantic_version}}-SNAPSHOT"
-// TODO: switch to this once all common protos are actually public
+version = "{{api.semantic_version}}-SNAPSHOT"
 // TODO: use a flag to determine whether to produce a release or a snapshot
-
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
+def tmpSnapshotRepo = "http://104.197.230.53:8081/nexus/content/repositories/snapshots/"
 
 repositories {
   mavenCentral()
   mavenLocal()
+  maven {
+    // Private maven repo.  Temporary, until googleapis-common-protos is published
+    url tmpSnapshotRepo
+  }
 }
 
 dependencies {
   compile "com.google.protobuf:protobuf-java:3.0.0-beta-2"
+  compile "io.gapi:googleapis-common-protos:0.0.0-SNAPSHOT"
+}
+
+protobuf {
+  protoc {
+    // The version of protoc must match protobuf-java. If you don't depend on
+    // protobuf-java directly, you will be transitively depending on the
+    // protobuf-java version that grpc depends on.
+    artifact = "com.google.protobuf:protoc:3.0.0-beta-2"
+  }
 }
 
 task javadocJar(type: Jar) {
@@ -41,8 +61,6 @@ signing {
 }
 
 uploadArchives.repositories.mavenDeployer {
- // url to the snapshot repository of a private maven repo.
-  def tmpSnapshotRepo = "http://104.197.230.53:8081/nexus/content/repositories/snapshots/"
   beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
   String stagingUrl
     if (rootProject.hasProperty('repositoryId')) {
@@ -57,11 +75,7 @@ uploadArchives.repositories.mavenDeployer {
     }
   }
   repository(url: stagingUrl, configureAuth)
-  snapshotRepository(url: tmpSnapshotRepo) {
-    authentication(userName: privateOssrhUsername, password: privateOssrhPassword)
-  }
-
-  // snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/', configureAuth)
+  snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/', configureAuth)
 }
 
 [
@@ -69,7 +83,7 @@ uploadArchives.repositories.mavenDeployer {
   uploadArchives.repositories.mavenDeployer,
 ]*.pom { pom ->
   pom.project {
-    name "io.gapi:{{api.name}}"
+    name "io.gapi:{{api.name}}-{{api.version}}"
     description project.description
     url '{{{api.homepage}}}'
 
@@ -82,8 +96,8 @@ uploadArchives.repositories.mavenDeployer {
     licenses {
       license {
         name '{{api.license}}'
-        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-     }
+        url '{{{api.license.url}}}'
+      }
     }
 
     developers {
