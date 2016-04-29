@@ -195,6 +195,17 @@ var parseArgs = function parseArgs() {
     }
   );
   cli.addArgument(
+    [ '--experimental_alt_java' ],
+    {
+      defaultValue: false,
+      action: 'storeTrue',
+      help: 'When set indicates that the alternate build is used for java.\n'
+            + ' This ensures that the generated gradle files will build packages'
+            + ' that contain compiled java classes rather the protobuf source.',
+      dest: 'altJava'
+    }
+  );
+  cli.addArgument(
     [ '--override_plugins' ],
     {
       action: 'append',

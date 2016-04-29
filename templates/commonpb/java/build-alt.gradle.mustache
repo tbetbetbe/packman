@@ -1,6 +1,14 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies { classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.6' }
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'com.google.protobuf'
 
 description = 'Common protobufs used in Google APIs'
 group = "io.gapi"
@@ -19,6 +27,15 @@ repositories {
 
 dependencies {
   compile "com.google.protobuf:protobuf-java:3.0.0-beta-2"
+}
+
+protobuf {
+  protoc {
+    // The version of protoc must match protobuf-java. If you don't depend on
+    // protobuf-java directly, you will be transitively depending on the
+    // protobuf-java version that grpc depends on.
+    artifact = "com.google.protobuf:protoc:3.0.0-beta-2"
+  }
 }
 
 task javadocJar(type: Jar) {
