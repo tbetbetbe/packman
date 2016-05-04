@@ -28,6 +28,7 @@ var tmp = require('tmp');
 var url = require('url');
 
 var ApiRepo = require('../lib/api_repo').ApiRepo;
+var parseApiName = require('../lib/api_repo').parseApiName;
 
 function addFakeBinsToPath() {
   var tmpObj = tmp.dirSync();
@@ -96,6 +97,24 @@ var passesOn = function passesOn(done) {
   };
   return shouldPass;
 };
+
+describe('parseApiName', function() {
+  var tests = [
+    {
+      name: 'pubsub/v1',
+      want: ['pubsub', 'v1']
+    },
+    {
+      name: 'devtools/cloudtrace/v2',
+      want: ['devtools/cloudtrace', 'v2']
+    }
+  ];
+  _.forEach(tests, function(t) {
+    it('should parse ' + t.name + ' ok', function() {
+      expect(parseApiName(t.name)).to.eql(t.want);
+    });
+  });
+});
 
 describe('ApiRepo', function() {
   describe('on the test fixture repo with no plugins', function() {

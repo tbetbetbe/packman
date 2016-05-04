@@ -51,8 +51,8 @@
 var _ = require('lodash');
 var path = require('path');
 var version = require('../package.json').version;
+var apiRepo = require('../lib/api_repo');
 
-var ApiRepo = require('../lib/api_repo').ApiRepo;
 var ArgumentParser = require('argparse').ArgumentParser;
 
 /**
@@ -216,10 +216,23 @@ var parseArgs = function parseArgs() {
       dest: 'overridePlugins'
     }
   );
+  cli.addArgument(
+    [ '--experimental_extra_apis' ],
+    {
+      action: 'append',
+      help: 'Specifies additional apis to include.\n' +
+            ' In the unusual situations where this necessary ' +
+            ' allow extra apis to be included in the package ' +
+            ' generated for the main on.  Example:\n' +
+            ' --experimental_extra_apis logging/v1\n' +
+            ' adds the logging/v1 api to the current package',
+      dest: 'extraApis'
+    }
+  );
   return cli.parseArgs();
 };
 
-var parsePlugins = function parsePlugins(pluginSpecs) {
+function parsePlugins(pluginSpecs) {
   var parsedSpecs = [];
   _.forEach(pluginSpecs, function(p) {
     var split = p.split(":");
@@ -233,7 +246,8 @@ var parsePlugins = function parsePlugins(pluginSpecs) {
     return {};
   }
   return _.object(parsedSpecs);
-};
+}
+
 
 /**
  * main is the command line entry point when this file is run as a script.
@@ -268,15 +282,11 @@ var main = function main() {
     console.error('Please specify a value for --api-name');
     process.exit(1);
   }
-  var repo = new ApiRepo(opts);
-  var parts = opts.apiName.split('/');
-  var numParts = parts.length;
-  var apiName = parts[0];
-  var apiVersion = parts[1] || '';
-  if (numParts > 2) {
-     apiName = parts.slice(0, numParts - 1).join('/');
-     apiVersion = parts[numParts - 1];
-  }
+
+  var repo = new apiRepo.ApiRepo(opts);
+  var nameVersion = apiRepo.parseApiName(opts.apiName);
+  var apiName = nameVersion[0];
+  var apiVersion = nameVersion[1];
 
   repo.on('ready', function() {
     if (opts.gaxDir) {
